@@ -18,28 +18,40 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = __importStar(require("discord.js"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const wokcommands_1 = __importDefault(require("wokcommands"));
+const mongoose_1 = __importDefault(require("mongoose"));
+const path_1 = __importDefault(require("path"));
+const status_changer_1 = __importDefault(require("./features/status-changer"));
 dotenv_1.default.config();
 const client = new discord_js_1.default.Client({
-    intents: [
-        discord_js_1.Intents.FLAGS.GUILDS,
-        discord_js_1.Intents.FLAGS.GUILD_MESSAGES,
-        discord_js_1.Intents.FLAGS.GUILD_BANS,
-    ]
+    intents: [discord_js_1.Intents.FLAGS.GUILDS, discord_js_1.Intents.FLAGS.GUILD_MESSAGES, discord_js_1.Intents.FLAGS.GUILD_BANS, discord_js_1.Intents.FLAGS.GUILD_PRESENCES]
 });
-client.on('ready', () => {
-    console.log('The bot is ready');
-});
-client.on('messageCreate', (message) => {
-    if (message.content === 'ping') {
-        message.reply({
-            content: ':ping_pong: ayop'
-        });
-    }
-});
+client.on('ready', () => __awaiter(void 0, void 0, void 0, function* () {
+    yield mongoose_1.default.connect(process.env.MONGO_URI || ' ', { keepAlive: true });
+    (0, status_changer_1.default)(client);
+    console.log(`Bot has started.`);
+    new wokcommands_1.default(client, {
+        commandsDir: path_1.default.join(__dirname, 'commands'),
+        featuresDir: path_1.default.join(__dirname, 'features'),
+        typeScript: true,
+        testServers: ['931238613180612708'],
+        botOwners: ['452793411401940995'],
+        mongoUri: process.env.MONGO_URI,
+    });
+}));
 client.login(process.env.TOKEN);
