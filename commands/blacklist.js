@@ -1,43 +1,39 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
+const user_schema_1 = __importDefault(require("../schemas/user-schema"));
 exports.default = {
-    category: 'Moderation',
-    description: 'Bans a user',
+    category: 'Testing',
+    description: 'Sends fields to mongo',
     permissions: ['ADMINISTRATOR'],
-    // requireRoles: true,
-    slash: 'both',
+    slash: true,
     testOnly: true,
     guildOnly: true,
     minArgs: 2,
     expectedArgs: '<user> <reason>',
     expectedArgsTypes: ['USER', 'STRING'],
-    callback: ({ interaction, args }) => {
-        var _a;
+    callback: ({ interaction, args, guild }) => {
         const target = interaction.options.getMember('user');
         if (!target) {
             return {
                 custom: true,
-                content: 'Please tag target to ban.',
+                content: 'Please tag target to blacklist.',
                 ephemeral: true,
-            };
-        }
-        if (!target.bannable) {
-            return {
-                custom: true,
-                content: 'Cannot ban that user. <:VBjskekw:931287046935421000> ',
-                //ephemeral: true
             };
         }
         args.shift();
         const reason = args.join(' ');
-        target.ban({
-            reason,
-            days: 7
-        });
+        new user_schema_1.default({
+            user: `${target.id}`,
+            reason: `${reason}`,
+            guild: `${guild === null || guild === void 0 ? void 0 : guild.id}`
+        }).save();
         const author = interaction.user;
         const embed = new discord_js_1.MessageEmbed()
-            .setDescription(`:lock: **${author}**, **${target}** has been banned from **${(_a = interaction.guild) === null || _a === void 0 ? void 0 : _a.name}**`)
+            .setDescription(`:loudspeaker: **${author}**, **${target.user.tag}** has been blacklisted.`)
             .setColor("WHITE");
         return embed;
     }

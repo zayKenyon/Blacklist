@@ -1,10 +1,11 @@
 import {Client} from "discord.js";
 
 export default (client: Client) => {
+
     const statusOptions = [
         `Blacklisting ${client.users.cache.size} users`,
         `Patrolling ${client.guilds.cache.size} servers`,
-        'Warning other mods',
+        // `Warning ${modCount} mods`,
     ]
     let counter = 0
 
@@ -21,7 +22,7 @@ export default (client: Client) => {
             counter = 0
         }
 
-        setTimeout(updateStatus, 1000 * 60 * 5)
+        setTimeout(updateStatus, 1000 * 60 * 3)
     }
     updateStatus()
 }

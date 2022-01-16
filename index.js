@@ -39,19 +39,32 @@ const path_1 = __importDefault(require("path"));
 const status_changer_1 = __importDefault(require("./features/status-changer"));
 dotenv_1.default.config();
 const client = new discord_js_1.default.Client({
-    intents: [discord_js_1.Intents.FLAGS.GUILDS, discord_js_1.Intents.FLAGS.GUILD_MESSAGES, discord_js_1.Intents.FLAGS.GUILD_BANS, discord_js_1.Intents.FLAGS.GUILD_PRESENCES]
+    intents: [
+        discord_js_1.Intents.FLAGS.GUILDS,
+        discord_js_1.Intents.FLAGS.GUILD_MESSAGES,
+        discord_js_1.Intents.FLAGS.GUILD_BANS,
+        discord_js_1.Intents.FLAGS.GUILD_PRESENCES
+    ]
 });
-client.on('ready', () => __awaiter(void 0, void 0, void 0, function* () {
+client.on('ready', (payload) => __awaiter(void 0, void 0, void 0, function* () {
     yield mongoose_1.default.connect(process.env.MONGO_URI || ' ', { keepAlive: true });
     (0, status_changer_1.default)(client);
-    console.log(`Bot has started.`);
+    console.log(`Bot has started. We have infiltrated ${client.users.cache.size} people in ${client.guilds.cache.size} servers.`);
     new wokcommands_1.default(client, {
         commandsDir: path_1.default.join(__dirname, 'commands'),
         featuresDir: path_1.default.join(__dirname, 'features'),
         typeScript: true,
-        testServers: ['931238613180612708'],
+        testServers: ['931238613180612708', '932240564102000710'],
         botOwners: ['452793411401940995'],
         mongoUri: process.env.MONGO_URI,
+    });
+    payload.guilds.cache.forEach((guild) => {
+        console.log(guild.name, "has", guild.members.cache.filter((members) => members.permissions.has("BAN_MEMBERS")).size, "mods");
+        // const modCount = guild.members.cache.filter((members) => members.permissions.has("BAN_MEMBERS")).size;
+        // console.log(modCount)
+        // for (let modCount = 0; guild.members.cache.filter((members) => members.permissions.has("ADMINISTRATOR")).size; modCount++){
+        //     console.log(modCount)
+        // }
     });
 }));
 client.login(process.env.TOKEN);

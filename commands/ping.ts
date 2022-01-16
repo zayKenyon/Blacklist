@@ -3,7 +3,7 @@ import {Client, MessageEmbed, TextChannel} from "discord.js";
 
 export default {
     category: 'Miscellaneous',
-    description: 'Returns an embed to prove that the bot is online',
+    description: 'Checks latency',
 
     slash: true,
     testOnly: true,

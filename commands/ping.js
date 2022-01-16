@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
 exports.default = {
     category: 'Miscellaneous',
-    description: 'Returns an embed to prove that the bot is online',
+    description: 'Checks latency',
     slash: true,
     testOnly: true,
     callback: ({ interaction, text, client }) => {

@@ -1,14 +1,15 @@
-import {ICommand} from "wokcommands";
 import {GuildMember, MessageEmbed} from "discord.js";
+import {ICommand} from "wokcommands";
+import UserSchema from "../schemas/user-schema";
+
 
 export default {
-    category: 'Moderation',
-    description: 'Bans a user',
+    category: 'Testing',
+    description: 'Sends fields to mongo',
 
     permissions: ['ADMINISTRATOR'],
-    // requireRoles: true,
 
-    slash: 'both',
+    slash: true,
     testOnly: true,
 
     guildOnly: true,
@@ -18,37 +19,30 @@ export default {
     expectedArgsTypes: ['USER', 'STRING'],
 
 
-    callback: ({ interaction, args}) => {
+    callback: ({ interaction, args, guild}) => {
         const target = interaction.options.getMember('user') as GuildMember
         if (!target) {
             return {
                 custom: true,
-                content: 'Please tag target to ban.',
+                content: 'Please tag target to blacklist.',
                 ephemeral: true,
             }
 
         }
 
-        if (!target.bannable) {
-            return {
-                custom: true,
-                content: 'Cannot ban that user. <:VBjskekw:931287046935421000> ',
-                //ephemeral: true
-            }
-        }
-
         args.shift()
         const reason = args.join(' ')
 
-        target.ban({
-            reason,
-            days: 7
-        })
+        new UserSchema({
+            user: `${target.id}`,
+            reason: `${reason}`,
+            guild: `${guild?.id}`
+        }).save()
 
         const author = interaction.user
 
         const embed = new MessageEmbed()
-            .setDescription(`:lock: **${author}**, **${target}** has been banned from **${interaction.guild?.name}**`)
+            .setDescription(`:loudspeaker: **${author}**, **${target.user.tag}** has been blacklisted.`)
             .setColor("WHITE")
         return embed
     }
