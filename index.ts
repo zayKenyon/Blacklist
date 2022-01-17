@@ -18,14 +18,13 @@ const client = new DiscordJS.Client({
 
 client.on('ready', async (payload) => {
     await mongoose.connect(process.env.MONGO_URI || ' ', { keepAlive: true })
-    statusChanger(client)
     console.log(`Bot has started. We have infiltrated ${client.users.cache.size} people in ${client.guilds.cache.size} servers.`);
 
     new WOKCommands(client, {
         commandsDir: path.join(__dirname, 'commands'),
         featuresDir: path.join(__dirname, 'features'),
         typeScript: true,
-        testServers: ['931238613180612708', '932240564102000710'],
+        testServers: ['932240564102000710', '931238613180612708'],
         botOwners: ['452793411401940995'],
         mongoUri: process.env.MONGO_URI,
     })
@@ -38,6 +37,16 @@ client.on('ready', async (payload) => {
         //     console.log(modCount)
         // }
     });
+})
+
+client.on('guildCreate', function (guild){
+    statusChanger(client)
+    console.log('Member count updated')
+})
+
+client.on('guildDelete', function (guild){
+    statusChanger(client)
+    console.log('Member count updated')
 })
 
 client.login(process.env.TOKEN)

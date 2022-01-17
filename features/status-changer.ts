@@ -1,10 +1,11 @@
 import {Client} from "discord.js";
+import {ActivityTypes} from "discord.js/typings/enums";
 
 export default (client: Client) => {
 
     const statusOptions = [
-        `Blacklisting ${client.users.cache.size} users`,
-        `Patrolling ${client.guilds.cache.size} servers`,
+        `${client.users.cache.size} viper mains`,
+        // `Patrolling ${client.guilds.cache.size} servers`,
         // `Warning ${modCount} mods`,
     ]
     let counter = 0
@@ -13,6 +14,7 @@ export default (client: Client) => {
         client.user?.setPresence({
             activities: [
                 {
+                    type: ActivityTypes.WATCHING,
                     name: statusOptions[counter]
                 }
             ]

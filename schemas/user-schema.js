@@ -16,6 +16,10 @@ const schema = new mongoose_1.default.Schema({
     guild: {
         type: String,
         required: true
+    },
+    author: {
+        type: String,
+        required: true
     }
 });
 exports.default = mongoose_1.default.model('blacklist', schema);

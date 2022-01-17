@@ -5,14 +5,12 @@ import UserSchema from "../schemas/user-schema";
 
 export default {
     category: 'Testing',
-    description: 'Sends fields to mongo',
+    description: 'Submits user to blacklist',
 
     permissions: ['ADMINISTRATOR'],
 
     slash: true,
     testOnly: true,
-
-    guildOnly: true,
 
     minArgs: 2,
     expectedArgs: '<user> <reason>',
@@ -21,25 +19,17 @@ export default {
 
     callback: ({ interaction, args, guild}) => {
         const target = interaction.options.getMember('user') as GuildMember
-        if (!target) {
-            return {
-                custom: true,
-                content: 'Please tag target to blacklist.',
-                ephemeral: true,
-            }
-
-        }
 
         args.shift()
         const reason = args.join(' ')
+        const author = interaction.user
 
         new UserSchema({
             user: `${target.id}`,
             reason: `${reason}`,
-            guild: `${guild?.id}`
+            guild: `${guild?.id}`,
+            author: `${author.id}`
         }).save()
-
-        const author = interaction.user
 
         const embed = new MessageEmbed()
             .setDescription(`:loudspeaker: **${author}**, **${target.user.tag}** has been blacklisted.`)

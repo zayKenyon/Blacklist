@@ -12,6 +12,10 @@ const schema = new mongoose.Schema({
     guild: {
         type: String,
         required: true
+    },
+    author: {
+        type: String,
+        required: true
     }
 })
 

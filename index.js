@@ -48,13 +48,12 @@ const client = new discord_js_1.default.Client({
 });
 client.on('ready', (payload) => __awaiter(void 0, void 0, void 0, function* () {
     yield mongoose_1.default.connect(process.env.MONGO_URI || ' ', { keepAlive: true });
-    (0, status_changer_1.default)(client);
     console.log(`Bot has started. We have infiltrated ${client.users.cache.size} people in ${client.guilds.cache.size} servers.`);
     new wokcommands_1.default(client, {
         commandsDir: path_1.default.join(__dirname, 'commands'),
         featuresDir: path_1.default.join(__dirname, 'features'),
         typeScript: true,
-        testServers: ['931238613180612708', '932240564102000710'],
+        testServers: ['932240564102000710', '931238613180612708'],
         botOwners: ['452793411401940995'],
         mongoUri: process.env.MONGO_URI,
     });
@@ -67,4 +66,12 @@ client.on('ready', (payload) => __awaiter(void 0, void 0, void 0, function* () {
         // }
     });
 }));
+client.on('guildCreate', function (guild) {
+    (0, status_changer_1.default)(client);
+    console.log('Member count updated');
+});
+client.on('guildDelete', function (guild) {
+    (0, status_changer_1.default)(client);
+    console.log('Member count updated');
+});
 client.login(process.env.TOKEN);
