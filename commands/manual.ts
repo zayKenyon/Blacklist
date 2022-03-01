@@ -1,0 +1,35 @@
+import {ICommand} from "wokcommands";
+import {MessageEmbed} from "discord.js";
+import UserSchema from "../schemas/user-schema";
+
+export default {
+    category: 'Owner',
+    description: 'Manual submission to blacklist',
+
+    ownerOnly: true,
+
+    slash: true,
+    testOnly: true,
+
+    minArgs: 4,
+    expectedArgs: '<user> <reason> <guild> <author>',
+    expectedArgsTypes: ['USER', 'STRING', 'STRING', 'STRING'],
+
+    callback: ({ interaction, args}) => {
+        const[target, reason, guild, author] = args
+        const owner = interaction.user
+
+        new UserSchema({
+            user: `${target}`,
+            reason: `${reason}`,
+            guild: `${guild}`,
+            author: `${author}`
+        }).save()
+
+
+        const embed = new MessageEmbed()
+            .setDescription(`:loudspeaker: **${owner}**, **${target}** has been manually submitted.`)
+            .setColor("NOT_QUITE_BLACK")
+        return embed
+    }
+} as ICommand

@@ -5,7 +5,7 @@ export default (client: Client) => {
 
     const statusOptions = [
         `${client.users.cache.size} viper mains`,
-        // `Patrolling ${client.guilds.cache.size} servers`,
+        `Patrolling ${client.guilds.cache.size} servers`,
         // `Warning ${modCount} mods`,
     ]
     let counter = 0

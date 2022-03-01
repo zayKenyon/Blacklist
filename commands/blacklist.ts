@@ -1,10 +1,10 @@
 import {GuildMember, MessageEmbed} from "discord.js";
 import {ICommand} from "wokcommands";
 import UserSchema from "../schemas/user-schema";
-
+import userNotifier from "../features/user-notifier";
 
 export default {
-    category: 'Testing',
+    category: 'Administration',
     description: 'Submits user to blacklist',
 
     permissions: ['ADMINISTRATOR'],
@@ -31,9 +31,12 @@ export default {
             author: `${author.id}`
         }).save()
 
+        userNotifier(target.id)
+
         const embed = new MessageEmbed()
             .setDescription(`:loudspeaker: **${author}**, **${target.user.tag}** has been blacklisted.`)
             .setColor("WHITE")
         return embed
     }
 } as ICommand
+

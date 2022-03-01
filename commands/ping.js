@@ -5,7 +5,6 @@ exports.default = {
     category: 'Miscellaneous',
     description: 'Checks latency',
     slash: true,
-    testOnly: true,
     callback: ({ interaction, text, client }) => {
         const author = interaction.user;
         const embed = new discord_js_1.MessageEmbed()
