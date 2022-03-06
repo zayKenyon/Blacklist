@@ -1,7 +1,7 @@
-import {GuildMember, MessageEmbed} from "discord.js";
+import { GuildMember, MessageEmbed} from "discord.js";
 import {ICommand} from "wokcommands";
 import UserSchema from "../schemas/user-schema";
-import userNotifier from "../features/user-notifier";
+import userNotifier from "../utils/user-notifier";
 
 export default {
     category: 'Administration',
@@ -14,29 +14,29 @@ export default {
 
     minArgs: 2,
     expectedArgs: '<user> <reason>',
-    expectedArgsTypes: ['USER', 'STRING'],
+    expectedArgsTypes: ['STRING', 'STRING'],
 
 
-    callback: ({ interaction, args, guild}) => {
-        const target = interaction.options.getMember('user') as GuildMember
+    callback: async ({ client: Client, interaction, args, guild}) => {
+        const {id, user} = interaction.options.getMember('user') as GuildMember
 
         args.shift()
         const reason = args.join(' ')
         const author = interaction.user
 
         new UserSchema({
-            user: `${target.id}`,
+            user: `${id}`,
             reason: `${reason}`,
             guild: `${guild?.id}`,
             author: `${author.id}`
         }).save()
 
-        userNotifier(target.id)
+        await userNotifier(Client, id)
 
-        const embed = new MessageEmbed()
-            .setDescription(`:loudspeaker: **${author}**, **${target.user.tag}** has been blacklisted.`)
+        return new MessageEmbed()
+            .setDescription(`:loudspeaker: **${author}**, **${user}** has been blacklisted.`)
             .setColor("WHITE")
-        return embed
+
     }
 } as ICommand
 

@@ -6,14 +6,12 @@ export default {
     category: 'Owner',
     description: 'Manual submission to blacklist',
 
-    ownerOnly: true,
-
     slash: true,
     testOnly: true,
 
     minArgs: 4,
     expectedArgs: '<user> <reason> <guild> <author>',
-    expectedArgsTypes: ['USER', 'STRING', 'STRING', 'STRING'],
+    expectedArgsTypes: ['STRING', 'STRING', 'STRING', 'STRING'],
 
     callback: ({ interaction, args}) => {
         const[target, reason, guild, author] = args

@@ -14,10 +14,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.config = void 0;
 const user_schema_1 = __importDefault(require("../schemas/user-schema"));
-exports.default = (target) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_schema_1.default.findOne({ user: target });
-    console.log(target);
+const discord_js_1 = require("discord.js");
+exports.default = (client, id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_schema_1.default.findOne({ user: id });
     console.log('Result:', result);
+    const { user, reason, guild, author } = result;
+    console.log(`${user} ${reason} ${guild} ${author}`);
+    const embed = new discord_js_1.MessageEmbed()
+        .setDescription(`:loudspeaker: **${author}** from **${guild}** just blacklisted **${user}** for **${reason}**.`)
+        .setColor("WHITE");
+    const channel = (client.channels.cache.get('932240564102000713'));
+    yield channel.send(`:loudspeaker: **${author}** from **${guild}** just blacklisted **${user}** for **${reason}**.`);
 });
 exports.config = {
     dbName: 'USER_NOTIFIER',

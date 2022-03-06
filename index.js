@@ -35,7 +35,6 @@ const discord_js_1 = __importStar(require("discord.js"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const wokcommands_1 = __importDefault(require("wokcommands"));
 const path_1 = __importDefault(require("path"));
-const status_changer_1 = __importDefault(require("./features/status-changer"));
 dotenv_1.default.config();
 const client = new discord_js_1.default.Client({
     intents: [
@@ -60,12 +59,4 @@ client.on('ready', () => __awaiter(void 0, void 0, void 0, function* () {
         console.log(`The connection state is "${state}"`);
     });
 }));
-client.on('guildCreate', function () {
-    (0, status_changer_1.default)(client);
-    console.log('Member count updated');
-});
-client.on('guildDelete', function () {
-    (0, status_changer_1.default)(client);
-    console.log('Member count updated');
-});
 client.login(process.env.TOKEN);

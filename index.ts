@@ -2,7 +2,6 @@ import DiscordJS, {Intents} from 'discord.js';
 import dotenv from 'dotenv';
 import WOKCommands from "wokcommands";
 import path from "path";
-import statusChanger from "./features/status-changer";
 dotenv.config()
 
 const client = new DiscordJS.Client({
@@ -30,17 +29,8 @@ client.on('ready', async () => {
     wok.on('databaseConnected', (connection, state) => {
         console.log(`The connection state is "${state}"`)
     })
+
 });
-
-client.on('guildCreate', function (){
-    statusChanger(client)
-    console.log('Member count updated')
-})
-
-client.on('guildDelete', function (){
-    statusChanger(client)
-    console.log('Member count updated')
-})
 
 client.login(process.env.TOKEN)
 
