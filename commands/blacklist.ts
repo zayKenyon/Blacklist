@@ -1,4 +1,4 @@
-import { GuildMember, MessageEmbed} from "discord.js";
+import {Client, GuildMember, MessageEmbed, UserMention} from "discord.js";
 import {ICommand} from "wokcommands";
 import UserSchema from "../schemas/user-schema";
 import userNotifier from "../utils/user-notifier";
@@ -17,7 +17,7 @@ export default {
     expectedArgsTypes: ['STRING', 'STRING'],
 
 
-    callback: async ({ client: Client, interaction, args, guild}) => {
+    callback: async ({client: Client,  interaction, args, guild}) => {
         const {id, user} = interaction.options.getMember('user') as GuildMember
 
         args.shift()
@@ -31,7 +31,7 @@ export default {
             author: `${author.id}`
         }).save()
 
-        await userNotifier(Client, id)
+        await userNotifier(Client, author, guild, user, reason)
 
         return new MessageEmbed()
             .setDescription(`:loudspeaker: **${author}**, **${user}** has been blacklisted.`)

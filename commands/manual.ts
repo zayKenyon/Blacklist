@@ -9,6 +9,8 @@ export default {
     slash: true,
     testOnly: true,
 
+    ownerOnly: true,
+
     minArgs: 4,
     expectedArgs: '<user> <reason> <guild> <author>',
     expectedArgsTypes: ['STRING', 'STRING', 'STRING', 'STRING'],
@@ -24,10 +26,9 @@ export default {
             author: `${author}`
         }).save()
 
-
-        const embed = new MessageEmbed()
+        return new MessageEmbed()
             .setDescription(`:loudspeaker: **${owner}**, **${target}** has been manually submitted.`)
             .setColor("NOT_QUITE_BLACK")
-        return embed
+
     }
 } as ICommand

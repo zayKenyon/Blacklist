@@ -35,7 +35,7 @@ exports.default = {
             guild: `${guild === null || guild === void 0 ? void 0 : guild.id}`,
             author: `${author.id}`
         }).save();
-        yield (0, user_notifier_1.default)(Client, id);
+        yield (0, user_notifier_1.default)(Client, author, guild, user, reason);
         return new discord_js_1.MessageEmbed()
             .setDescription(`:loudspeaker: **${author}**, **${user}** has been blacklisted.`)
             .setColor("WHITE");

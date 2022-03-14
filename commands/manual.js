@@ -10,6 +10,7 @@ exports.default = {
     description: 'Manual submission to blacklist',
     slash: true,
     testOnly: true,
+    ownerOnly: true,
     minArgs: 4,
     expectedArgs: '<user> <reason> <guild> <author>',
     expectedArgsTypes: ['STRING', 'STRING', 'STRING', 'STRING'],
@@ -22,9 +23,8 @@ exports.default = {
             guild: `${guild}`,
             author: `${author}`
         }).save();
-        const embed = new discord_js_1.MessageEmbed()
+        return new discord_js_1.MessageEmbed()
             .setDescription(`:loudspeaker: **${owner}**, **${target}** has been manually submitted.`)
             .setColor("NOT_QUITE_BLACK");
-        return embed;
     }
 };

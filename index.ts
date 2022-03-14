@@ -2,6 +2,7 @@ import DiscordJS, {Intents} from 'discord.js';
 import dotenv from 'dotenv';
 import WOKCommands from "wokcommands";
 import path from "path";
+const fs = require("fs");
 dotenv.config()
 
 const client = new DiscordJS.Client({
@@ -21,7 +22,7 @@ client.on('ready', async () => {
         commandsDir: path.join(__dirname, 'commands'),
         featuresDir: path.join(__dirname, 'features'),
         typeScript: true,
-        testServers: ['932240564102000710'],
+        testServers: ['932240564102000710', '827865161427058718', '828026052806443028'],
         botOwners: ['452793411401940995'],
         mongoUri: process.env.MONGO_URI,
     });

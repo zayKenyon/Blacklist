@@ -2,7 +2,7 @@ import { Client } from 'discord.js'
 import WOKCommands from "wokcommands";
 import statusChanger from "./status-changer";
 
-export default (client: Client, instance: WOKCommands) => {
+export default async (client: Client, instance: WOKCommands) => {
 
     client.on('guildCreate', function (){
         statusChanger(client)
@@ -13,6 +13,10 @@ export default (client: Client, instance: WOKCommands) => {
         statusChanger(client)
         console.log('Member count updated')
     })
+
+    // client.on('guildMemberAdd', async function (){
+    //     userChecker(Client, id)
+    // })
 }
 
 export const config = {

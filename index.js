@@ -35,6 +35,7 @@ const discord_js_1 = __importStar(require("discord.js"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const wokcommands_1 = __importDefault(require("wokcommands"));
 const path_1 = __importDefault(require("path"));
+const fs = require("fs");
 dotenv_1.default.config();
 const client = new discord_js_1.default.Client({
     intents: [
@@ -51,7 +52,7 @@ client.on('ready', () => __awaiter(void 0, void 0, void 0, function* () {
         commandsDir: path_1.default.join(__dirname, 'commands'),
         featuresDir: path_1.default.join(__dirname, 'features'),
         typeScript: true,
-        testServers: ['932240564102000710'],
+        testServers: ['932240564102000710', '827865161427058718', '828026052806443028'],
         botOwners: ['452793411401940995'],
         mongoUri: process.env.MONGO_URI,
     });
