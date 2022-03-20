@@ -1,22 +1,25 @@
 import { Client } from 'discord.js'
-import WOKCommands from "wokcommands";
 import statusChanger from "./status-changer";
+import userValidator from "./user-validator";
 
-export default async (client: Client, instance: WOKCommands) => {
+export default (client: Client) => {
 
     client.on('guildCreate', function (){
         statusChanger(client)
-        console.log('Member count updated')
+        console.log('Guild count increased');
+
     })
 
     client.on('guildDelete', function (){
         statusChanger(client)
-        console.log('Member count updated')
+        console.log('Guild count decreased')
     })
 
-    // client.on('guildMemberAdd', async function (){
-    //     userChecker(Client, id)
-    // })
+    client.on("guildMemberAdd", function(){
+        userValidator(client)
+        console.log('Member count increased')
+    })
+
 }
 
 export const config = {

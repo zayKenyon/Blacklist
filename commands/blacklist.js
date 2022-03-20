@@ -23,7 +23,7 @@ exports.default = {
     testOnly: true,
     minArgs: 2,
     expectedArgs: '<user> <reason>',
-    expectedArgsTypes: ['STRING', 'STRING'],
+    expectedArgsTypes: ['USER', 'STRING'],
     callback: ({ client: Client, interaction, args, guild }) => __awaiter(void 0, void 0, void 0, function* () {
         const { id, user } = interaction.options.getMember('user');
         args.shift();

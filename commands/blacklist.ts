@@ -14,10 +14,10 @@ export default {
 
     minArgs: 2,
     expectedArgs: '<user> <reason>',
-    expectedArgsTypes: ['STRING', 'STRING'],
+    expectedArgsTypes: ['USER', 'STRING'],
 
 
-    callback: async ({client: Client,  interaction, args, guild}) => {
+    callback: async ({client: Client, interaction, args, guild}) => {
         const {id, user} = interaction.options.getMember('user') as GuildMember
 
         args.shift()
