@@ -8,7 +8,7 @@ export default {
     permissions: ['ADMINISTRATOR'],
 
     slash: true,
-    testOnly: true,
+    // testOnly: true,
 
     minArgs: 1,
     expectedArgs: '<channel>',

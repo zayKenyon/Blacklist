@@ -10,7 +10,7 @@ export default {
     permissions: ['ADMINISTRATOR'],
 
     slash: true,
-    testOnly: true,
+    // testOnly: true,
 
     minArgs: 2,
     expectedArgs: '<user> <reason>',

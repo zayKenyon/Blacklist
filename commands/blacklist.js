@@ -20,7 +20,7 @@ exports.default = {
     description: 'Submits user to blacklist',
     permissions: ['ADMINISTRATOR'],
     slash: true,
-    testOnly: true,
+    // testOnly: true,
     minArgs: 2,
     expectedArgs: '<user> <reason>',
     expectedArgsTypes: ['USER', 'STRING'],

@@ -9,7 +9,7 @@ exports.default = {
     description: 'Sets a a logging channel',
     permissions: ['ADMINISTRATOR'],
     slash: true,
-    testOnly: true,
+    // testOnly: true,
     minArgs: 1,
     expectedArgs: '<channel>',
     expectedArgsTypes: ['CHANNEL'],

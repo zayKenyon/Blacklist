@@ -8,12 +8,11 @@ export default (client: Client) => {
         const result = await UserSchema.findOne({user: member.id}) || {}
         const {reason, guild, author} = result || {}
 
-        // @ts-ignore
-        const guildName = client.guilds.cache.get(guild).name || {}
+        const guildName = client.guilds.cache.get(guild)?.name || {}
         const guildID = member.guild.id || {}
 
         const {channelID} = await ChannelsSchema.findOne({guildID: guildID}) || {}
-        const channel = (client.channels.cache.get(`${channelID}`)) as TextChannel || {}
+        const channel = (client.channels.cache.get(`${channelID}`)) as TextChannel
 
         const embed = new MessageEmbed()
             .setDescription(`:warning: **${member}** (\`${member.id}\`) who just joined was blacklisted from **${guildName}** by **<@${author}>** (\`${author}\`) for **${reason}**.`)

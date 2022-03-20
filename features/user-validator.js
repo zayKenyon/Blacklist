@@ -18,13 +18,13 @@ const user_schema_1 = __importDefault(require("../schemas/user-schema"));
 const channels_schema_1 = __importDefault(require("../schemas/channels-schema"));
 exports.default = (client) => {
     client.on("guildMemberAdd", (member) => __awaiter(void 0, void 0, void 0, function* () {
+        var _a;
         const result = (yield user_schema_1.default.findOne({ user: member.id })) || {};
         const { reason, guild, author } = result || {};
-        // @ts-ignore
-        const guildName = client.guilds.cache.get(guild).name || {};
+        const guildName = ((_a = client.guilds.cache.get(guild)) === null || _a === void 0 ? void 0 : _a.name) || {};
         const guildID = member.guild.id || {};
         const { channelID } = (yield channels_schema_1.default.findOne({ guildID: guildID })) || {};
-        const channel = (client.channels.cache.get(`${channelID}`)) || {};
+        const channel = (client.channels.cache.get(`${channelID}`));
         const embed = new discord_js_1.MessageEmbed()
             .setDescription(`:warning: **${member}** (\`${member.id}\`) who just joined was blacklisted from **${guildName}** by **<@${author}>** (\`${author}\`) for **${reason}**.`)
             .setColor("RED");
