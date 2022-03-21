@@ -46,8 +46,12 @@ const client = new discord_js_1.default.Client({
         discord_js_1.Intents.FLAGS.GUILD_PRESENCES
     ]
 });
-client.on('ready', () => __awaiter(void 0, void 0, void 0, function* () {
+client.on('ready', (payload) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(`Bot has started. We have infiltrated ${client.users.cache.size} people in ${client.guilds.cache.size} servers.`);
+    // console.log(client.guilds.cache.map((guild) => guild.name).join('\n'))
+    payload.guilds.cache.forEach((g) => {
+        console.log(g.name, "has", g.memberCount, "members");
+    });
     const wok = new wokcommands_1.default(client, {
         commandsDir: path_1.default.join(__dirname, 'commands'),
         featuresDir: path_1.default.join(__dirname, 'features'),

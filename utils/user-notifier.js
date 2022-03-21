@@ -6,7 +6,7 @@ exports.default = (client, author, guild, user, reason) => {
     const embed = new discord_js_1.MessageEmbed()
         .setDescription(`:loudspeaker: **${author}** from **${guild}** just blacklisted **${user.id}** for **${reason}**.`)
         .setColor("WHITE");
-    const channel = (client.channels.cache.get('832783717747130378'));
+    const channel = (client.channels.cache.get('932240564102000713'));
     channel.send({ embeds: [embed] });
 };
 exports.config = {

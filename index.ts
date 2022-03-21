@@ -15,8 +15,18 @@ const client = new DiscordJS.Client({
     ]
 })
 
-client.on('ready', async () => {
+client.on('ready', async (payload) => {
     console.log(`Bot has started. We have infiltrated ${client.users.cache.size} people in ${client.guilds.cache.size} servers.`);
+    // console.log(client.guilds.cache.map((guild) => guild.name).join('\n'))
+
+    payload.guilds.cache.forEach((g) => {
+        console.log(
+            g.name,
+            "has",
+            g.memberCount,
+            "members"
+        );
+    });
 
     const wok = new WOKCommands(client, {
         commandsDir: path.join(__dirname, 'commands'),

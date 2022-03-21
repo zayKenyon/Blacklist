@@ -1,4 +1,4 @@
-import {Client, GuildMember, MessageEmbed, UserMention} from "discord.js";
+import {GuildMember, MessageEmbed} from "discord.js";
 import {ICommand} from "wokcommands";
 import UserSchema from "../schemas/user-schema";
 import userNotifier from "../utils/user-notifier";

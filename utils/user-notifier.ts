@@ -6,7 +6,7 @@ export default (client: Client, author: any, guild: any, user: any, reason: stri
         .setDescription(`:loudspeaker: **${author}** from **${guild}** just blacklisted **${user.id}** for **${reason}**.`)
         .setColor("WHITE")
 
-    const channel = (client.channels.cache.get('832783717747130378')) as TextChannel
+    const channel = (client.channels.cache.get('932240564102000713')) as TextChannel
     channel.send({ embeds: [embed] })
 }
 
