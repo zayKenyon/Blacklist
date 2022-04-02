@@ -1,6 +1,5 @@
 import {Client, MessageEmbed, TextChannel} from 'discord.js'
 import statusChanger from "./status-changer";
-// import userValidator from "./user-validator";
 import UserSchema from "../schemas/user-schema";
 import ChannelsSchema from "../schemas/channels-schema";
 

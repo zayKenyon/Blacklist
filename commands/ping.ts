@@ -5,6 +5,8 @@ export default {
     category: 'Miscellaneous',
     description: 'Checks latency',
 
+    testOnly: true,
+
     slash: true,
 
     callback: ({ interaction, text, client }) => {
