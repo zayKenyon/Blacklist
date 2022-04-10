@@ -7,10 +7,5 @@ module.exports = {
     execute(client) {
         console.log(`Ready! Logged in as ${client.user.tag}`);
         console.log(`${client.users.cache.size} Members :: ${client.guilds.cache.size} Servers`)
-
-        main().catch(err => console.log(err));
-        async function main() {
-            await mongoose.connect(mongoURI);
-        }
     },
 };

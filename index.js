@@ -1,10 +1,10 @@
 const fs = require('node:fs');
 const { Client, Collection, Intents } = require('discord.js');
-const { token } = require('./config.json');
+const { token, mongoURI} = require('./config.json');
+const mongoose = require("mongoose");
 
 const client = new Client( { intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_PRESENCES ] });
 module.exports = {client}
-
 
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
@@ -23,6 +23,11 @@ const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
     client.commands.set(command.data.name, command);
+}
+
+main().catch(err => console.log(err));
+async function main() {
+    await mongoose.connect(mongoURI);
 }
 
 client.login(token);

@@ -20,7 +20,13 @@ module.exports = {
 
             const {channelID} = await ChannelSchema.findOne({guildID: member.guild.id}) || {};
             const channel = client.channels.cache.get(channelID)
-            channel.send({ embeds: [Embed] });
+
+            try {
+                channel.send({ embeds: [Embed] });
+            } catch(err) {
+                console.log(err.code)
+            }
+
         } else  {
             console.log(`${member.displayName} is not blacklisted (${member.guild.id} ${member.guild.name})`)
         }
