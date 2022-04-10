@@ -10,7 +10,6 @@ module.exports = {
         const {reason, guild, author} = result || {};
 
         if(reason) {
-            console.log("blacklalka")
             const guildName = client.guilds.cache.get(guild)?.name || {}
 
             const Embed = new MessageEmbed()
