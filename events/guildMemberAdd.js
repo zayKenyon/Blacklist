@@ -10,7 +10,7 @@ module.exports = {
 
         const guildName = guild
 
-        const {channelId} = ChannelSchema.findOne({guildID: member.guild.id})
+        const {channelId} = await ChannelSchema.findOne({guildID: member.guild.id})
 
         if(channelId !== undefined) {
             const channel = client.channels.cache.get(`${channelId}`)

@@ -8,16 +8,17 @@ module.exports = {
         .addChannelOption(option =>
             option.setName('destination')
                 .setRequired(true)
-                .setDescription('Select a channel')),
+                .setDescription('TESTSelect a channel')),
     async execute(interaction) {
 
         if (interaction.member.permissions.has("ADMINISTRATOR")) {
             const {id, name} = interaction.options.getChannel('destination')
 
-            new ChannelSchema({
-                guildID: `${interaction.guildId}`,
-                channelID: `${id}`
-            }).save()
+            const result = await ChannelSchema.findOneAndUpdate(
+                { guildID: `${interaction.guildId}` },
+                { channelID: `${id}` },
+                { upsert: true } )
+            console.log('result:', result)
 
             await interaction.reply( { content: `${name} (\`${id}\`) has been set for ${interaction.guild.name}.` } )
 
