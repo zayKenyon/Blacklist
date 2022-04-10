@@ -9,21 +9,20 @@ module.exports = {
         const result = await UserSchema.findOne({user: member.id}) || {};
         const {reason, guild, author} = result || {};
 
-        const {channelID} = await ChannelSchema.findOne({guildID: member.guild.id}) || {};
-
-        if({channelID} !== undefined) {
+        if(reason) {
+            console.log("blacklalka")
             const guildName = client.guilds.cache.get(guild)?.name || {}
-            const channel = client.channels.cache.get(channelID)
 
             const Embed = new MessageEmbed()
-                .setTitle(`:loudspeaker: New Member Blacklisted!`)
+                .setTitle(`:scream_cat: Blacklisted Member Arrived`)
                 .setColor("RED")
                 .setDescription(`User :: **${member}** \`${member.id}\`\nReason :: **${reason}**\nAuthor :: **<@${author}>** \`${author}\`\nGuild :: **${guildName}**`)
                 .setThumbnail(`${member.displayAvatarURL()}`)
-            
-            channel.send({ embeds: [Embed] });
 
-        } else {
+            const {channelID} = await ChannelSchema.findOne({guildID: member.guild.id}) || {};
+            const channel = client.channels.cache.get(channelID)
+            channel.send({ embeds: [Embed] });
+        } else  {
             console.log(`${member.displayName} is not blacklisted (${member.guild.id} ${member.guild.name})`)
         }
     }
