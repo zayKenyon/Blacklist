@@ -18,7 +18,6 @@ module.exports = {
                 { guildID: `${interaction.guildId}` },
                 { channelID: `${id}` },
                 { upsert: true } )
-            console.log('result:', result)
 
             await interaction.reply( { content: `${name} (\`${id}\`) has been set for ${interaction.guild.name}.` } )
 
