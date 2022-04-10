@@ -6,22 +6,24 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc -w --skipLibCheck",
-    "dev": "nodemon index.ts",
+    "dev": "nodemon typescript/index.ts",
     "start": ""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/builders": "^0.12.0",
+    "@discordjs/rest": "^0.3.0",
+    "discord-api-types": "^0.31.0",
     "discord.js": "^13.6.0",
-    "dotenv": "^11.0.0",
     "mongodb": "^4.4.0",
+    "mongoose": "^6.2.10",
     "nodemon": "^2.0.15",
-    "path": "^0.12.7",
-    "ts-node": "^10.4.0",
-    "wokcommands": "^1.5.3"
+    "ts-node": "^10.4.0"
   },
   "devDependencies": {
+    "eslint": "^8.13.0",
     "typescript": "^4.5.4"
   }
 }

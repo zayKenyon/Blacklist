@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose')
 
 const schema = new mongoose.Schema({
     user: {
@@ -19,4 +19,4 @@ const schema = new mongoose.Schema({
     }
 })
 
-export default mongoose.model('blacklist', schema)
+module.exports = mongoose.model('blacklist', schema)

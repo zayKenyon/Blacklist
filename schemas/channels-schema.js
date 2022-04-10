@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose')
 
 const schema = new mongoose.Schema({
     guildID: {
@@ -11,4 +11,4 @@ const schema = new mongoose.Schema({
     }
 })
 
-export default mongoose.model('channel', schema)
+module.exports = mongoose.model('channel', schema)
