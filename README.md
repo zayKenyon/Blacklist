@@ -1,3 +1,5 @@
+Note: This is the Typescript version that uses [WOK Command Handler](https://docs.wornoffkeys.com/). Visit branch [rewrite](https://github.com/isaacKenyon/Blacklist/tree/rewrite) for a d.js JS version
+
 # Blacklist
 Supports moderators of VALORANT communities by letting them know who to bar from entering their server.
 
