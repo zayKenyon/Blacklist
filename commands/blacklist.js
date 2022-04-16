@@ -33,7 +33,7 @@ module.exports = {
             .setDescription(`User :: **${user}** \`${user.id}\`\nReason :: **${string}**\nAuthor :: **${interaction.user}** \`${interaction.user.id}\`\nGuild :: **${interaction.guild.name}**`)
             .setThumbnail(`${user.displayAvatarURL()}`)
 
-        const channel = client.channels?.cache.get('832783717747130378') //An announcement channel all servers follow
+        const channel = client.channels.fetch('832783717747130378') //An announcement channel all servers follow
         channel.send({ embeds: [Embed] });
 
         interaction.reply({ embeds: [Embed]})
