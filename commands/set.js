@@ -18,7 +18,7 @@ module.exports = {
             { channelID: `${id}` },
             { upsert: true } )
 
-        await interaction.reply( { content: `${name} (\`${id}\`) has been set for ${interaction.guild.name}.` } )
+        await interaction.reply( { content: `<#${id}> (\`${id}\`) has been set for ${interaction.guild.name}.` } )
 
     }
 }

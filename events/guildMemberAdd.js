@@ -26,9 +26,6 @@ module.exports = {
             } catch(err) {
                 console.log(err.code)
             }
-
-        } else  {
-            console.log(`${member.displayName} is not blacklisted (${member.guild.id} ${member.guild.name})`)
         }
     }
 }
