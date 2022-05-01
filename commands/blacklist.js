@@ -26,6 +26,7 @@ module.exports = {
             guild: `${interaction.guild.id}`,
             author: `${interaction.user.id}`,
         }).save()
+        console.log(`Submitted ${user.id} for ${string} from ${interaction.guild.id} by ${interaction.user.id}`)
 
         const Embed = new MessageEmbed()
             .setTitle(`:loudspeaker: New Member Blacklisted!`)
@@ -35,6 +36,7 @@ module.exports = {
 
         const channel = client.channels.fetch('832783717747130378') //An announcement channel all servers follow
         channel.send({ embeds: [Embed] });
+        console.log(`Published Blacklisted Message into ${channel.name}`)
 
         interaction.reply({ embeds: [Embed]})
     }
