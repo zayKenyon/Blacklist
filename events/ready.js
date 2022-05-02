@@ -1,5 +1,3 @@
-const ChannelSchema = require('../schemas/channels-schema');
-
 module.exports = {
     name: 'ready',
     once: true,
