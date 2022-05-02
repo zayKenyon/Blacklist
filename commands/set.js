@@ -17,7 +17,7 @@ module.exports = {
             { guildID: `${interaction.guildId}` },
             { channelID: `${id}` },
             { upsert: true } )
-        console.log(`Submitted the channel ${id.name} for ${interaction.guildId}`)
+        console.log(`Submitted the channel ${id} for ${interaction.guildId}`)
 
         await interaction.reply( { content: `<#${id}> (\`${id}\`) has been set for ${interaction.guild.name}.` } )
 
