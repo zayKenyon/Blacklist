@@ -4,7 +4,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('ping')
-        .setDescription('Reports the latency for the client and api!'),
+        .setDescription('Reports the latency for the client and api'),
     async execute(interaction) {
         
         const Embed = new MessageEmbed()
