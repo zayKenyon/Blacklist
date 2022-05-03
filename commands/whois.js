@@ -12,7 +12,7 @@ module.exports = {
             option.setName('target')
                 .setRequired(true)
                 .setDescription('Select a user')),
-    execute: async function (interaction) {
+    async execute(interaction) {
 
         // This command takes longer than the allowed 3 seconds, so we must defer
         // https://discordjs.guide/interactions/slash-commands.html#deferred-responses
@@ -54,7 +54,7 @@ module.exports = {
         // Any way to avoid these repeated query's?
         const {reason, guild, author} = await UserSchema.findOne({user: user.id})
 
-        // To convert the Guild Id into something processable
+        // To convert the Guild Id into something understandable
         const guildObject = client.guilds.cache.get(guild)
 
         // Blacklist Schema did not return null, fields are edited
