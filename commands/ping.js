@@ -4,9 +4,9 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('ping')
-        .setDescription('Reports the latency for the client and api'),
+        .setDescription('Reports the latency for the client and API'),
     async execute(interaction) {
-        
+
         const Embed = new MessageEmbed()
             .setColor("WHITE")
             .setDescription(`:ping_pong: Pong! **${interaction.user}**.`)
