@@ -6,8 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc -w --skipLibCheck",
-    "dev": "nodemon typescript/index.ts",
-    "start": ""
+    "index.js": "node --trace-warnings index.js",
+    "deploy-commands": "node deploy-commands.js",
+    "dev": "npm run index.js && npm run deploy-commands"
   },
   "keywords": [],
   "author": "",
