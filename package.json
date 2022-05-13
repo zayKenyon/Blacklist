@@ -8,7 +8,7 @@
     "tsc": "tsc -w --skipLibCheck",
     "index.js": "node --trace-warnings index.js",
     "deploy-commands": "node deploy-commands.js",
-    "dev": "npm run index.js && npm run deploy-commands"
+    "dev": "npm run deploy-commands && npm run index.js"
   },
   "keywords": [],
   "author": "",

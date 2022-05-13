@@ -1,36 +1,29 @@
-const {SlashCommandBuilder} = require("@discordjs/builders");
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const {MessageEmbed} = require("discord.js");
+const {setTimeout: wait} = require("node:timers/promises");
 const UserSchema = require("../schemas/user-schema");
-const {client} = require("../index");
-const wait = require('node:timers/promises').setTimeout;
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('whois')
-        .setDescription('Returns information about a user')
-        .addUserOption(option =>
-            option.setName('target')
-                .setRequired(true)
-                .setDescription('Select a user')),
+        .setName('user-lookup')
+        .setDescription('Get info about a user')
+        .addUserOption(option => option.setName('target').setDescription('The user').setRequired(true)),
     async execute(interaction) {
 
-        // This command takes longer than the allowed 3 seconds, so we must defer
+        // Command takes longer than allotted 3 seconds, so we must defer
         // https://discordjs.guide/interactions/slash-commands.html#deferred-responses
         await interaction.deferReply({ephemeral: true});
         await wait(4000);
 
         const user = interaction.options.getUser('target');
-
-        // I have no clue how this works
         const joinDate = new Date(Number((BigInt(user.id) >> 22n) + 1420070400000n));
 
         // Attempts to fetch target from all guilds the bot is in, errored guilds are ignored
         const guilds = [];
         for (const [, guild] of interaction.client.guilds.cache) {
-            await guild.members.fetch(user).then(() => guilds.push(guild)).catch(error => console.log(error));
+            await guild.members.fetch(user).then(() => guilds.push(guild)).catch(error => console.log(`${user.tag} does not exist in ${guild.name}`));
         }
 
-        // TBD: Instant Invite feature to make the guilds hyperlinks
         const Embed = new MessageEmbed()
             .setTitle('🕵️ User Lookup :: Found')
             .setColor("AQUA")
@@ -42,9 +35,8 @@ module.exports = {
                 **Profile Picture**: [Avatar URL](${user.displayAvatarURL()})
                 
                 **Joined ${interaction.guild.name}**: \`${interaction.member.joinedAt.toDateString()}\`
-                **Mutual Servers** (with me): ${guilds}
+                **Mutual Servers** (with me):  ${guilds}
             `)
-
         // If Blacklist Schema returns null, original embed is sent
         if (!await UserSchema.findOne({user: user.id})) return await interaction.editReply({
             embeds: [Embed],
@@ -54,8 +46,8 @@ module.exports = {
         // Any way to avoid these repeated query's?
         const {reason, guild, author} = await UserSchema.findOne({user: user.id})
 
-        // To convert the Guild Id into something understandable
-        const guildObject = client.guilds.cache.get(guild)
+        // To convert the Guild Id into something processable
+        const guildObject = interaction.client.guilds.cache.get(guild)
 
         // Blacklist Schema did not return null, fields are edited
         Embed.setColor("RED")
@@ -78,5 +70,5 @@ module.exports = {
             `)
 
         await interaction.editReply({embeds: [Embed], ephemeral: true})
-    }
-}
+    },
+};
