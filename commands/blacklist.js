@@ -1,4 +1,4 @@
-const {SlashCommandBuilder} = require("@discordjs/builders");
+const {SlashCommandBuilder, bold} = require("@discordjs/builders");
 const UserSchema = require('../schemas/user-schema');
 const {MessageEmbed} = require("discord.js");
 
@@ -14,7 +14,7 @@ module.exports = {
             option.setName('reason')
                 .setRequired(true)
                 .setDescription('Enter a reason')),
-    async execute(interaction, client) {
+    async execute(interaction) {
         if (!interaction.member.permissions.has("MANAGE_GUILD")) return interaction.reply({ content: 'Lol no 🖕', ephemeral: true })
 
         const user = interaction.options.getUser('target');
@@ -28,10 +28,15 @@ module.exports = {
         }).save()
         console.log(`Submitted ${user.id} for ${string} from ${interaction.guild.id} by ${interaction.user.id}`)
 
+        const boldUser = bold(user)
+        const boldReason = bold(string)
+        const boldAuthor = bold(interaction.user)
+        const boldGuild = bold(interaction.guild.name)
+
         const Embed = new MessageEmbed()
             .setTitle(`:loudspeaker: New Member Blacklisted!`)
             .setColor("WHITE")
-            .setDescription(`User :: **${user}** \`${user.id}\`\nReason :: **${string}**\nAuthor :: **${interaction.user}** \`${interaction.user.id}\`\nGuild :: **${interaction.guild.name}**`)
+            .setDescription(`User :: ${boldUser} \`${user.id}\`\nReason :: ${boldReason}\nAuthor :: ${boldAuthor} \`${interaction.user}\`\nGuild :: ${boldGuild}`)
             .setThumbnail(`${user.displayAvatarURL()}`)
 
         const channel = interaction.client.channels.cache.get('832783717747130378') //An announcement channel all servers follow
