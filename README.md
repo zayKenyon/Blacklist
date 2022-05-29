@@ -9,7 +9,6 @@ Source code to host your own ban pool bot.
 [![Discord](https://img.shields.io/discord/828026052806443028?color=7289DA&label=Support%20Server&style=for-the-badge)](https://discord.gg/3Fx3y8XV7Y)
 
 ## Setting up the bot
-___
 ### 1: Prerequisites
 - [Git](https://git-scm.com/)
 - [Node.js v16.6.0+](https://nodejs.org/en/)
@@ -32,7 +31,6 @@ git clone https://github.com/isaacKenyon/Blacklist
 - `yarn run start`
 
 ## How to use
-___
 Each participating server must run the slash command `/set`.
 
 Each participating server must have a channel following the announcement channel set in the `config.json`.
@@ -40,13 +38,9 @@ Each participating server must have a channel following the announcement channel
 You can ping the bot for further detail.
 
 ## Logic
-___
 ### Blacklist Submission:
 [![](https://mermaid.ink/img/pako:eNqNkLGOwjAMhl_F8gQSvECHk2jL3XK30LFlcBMfja5Jq8RBQpR3J4WyMVym2P6-xPqvqAbNmOHJ09jB96FxkM6urtif2cMO8p7UX2-ChCNstx-Q16sqttaIsAYZQJNQS4HXx0V9UMXqh0OgE0NgJzNHzg3RKbZzrbpUcr9-KsVDKeuXMsY2fdixXp4s5_m0bJRPsK8PrNicGezTeMcVE3z-hysn-HrL4QYte0tGp3iuc6dB6dL-DWbp6jiKp77Bxt0SGscUBO-1kcFj9kt94A1SlKG6OIWZ-MgvqDSU0rYLdbsD31d_pQ)](https://mermaid.live/edit#pako:eNqNkLGOwjAMhl_F8gQSvECHk2jL3XK30LFlcBMfja5Jq8RBQpR3J4WyMVym2P6-xPqvqAbNmOHJ09jB96FxkM6urtif2cMO8p7UX2-ChCNstx-Q16sqttaIsAYZQJNQS4HXx0V9UMXqh0OgE0NgJzNHzg3RKbZzrbpUcr9-KsVDKeuXMsY2fdixXp4s5_m0bJRPsK8PrNicGezTeMcVE3z-hysn-HrL4QYte0tGp3iuc6dB6dL-DWbp6jiKp77Bxt0SGscUBO-1kcFj9kt94A1SlKG6OIWZ-MgvqDSU0rYLdbsD31d_pQ)
 
 ### guildMemberAdd Event:
 [![](https://mermaid.ink/img/pako:eNo9kMFqwzAMhl9F-NRC8wI5bLRpNgbrDhs7jKQHNVITU0cOtjMYoe8-pVmni4X0Sf9vTabxxCY3bcChg9f3WkBjW7WjdXTg_sRhSwT8zZLgbAPTEbLsAXbV6jNygKbj5sIE2KKVmIAw4Qkjr4_Lpt2NLqadw-bibExMj9elVWTZm9d2tq9KoeN_Eb44zuWyWj3PLuCFYIyqkbw6EH07hsaH4OPghay0UHQowk7Ju255031aHThGbBni7N-KrrhNL_wawGxMz6FHS3qEaZ6tjRI91ybXVHhMAV1tarkqOg76Py7JJh9MfkYXeWNwTP7jRxqTpzDyHdpb1Jv2f9T1F3pMdXY)](https://mermaid.live/edit#pako:eNo9kMFqwzAMhl9F-NRC8wI5bLRpNgbrDhs7jKQHNVITU0cOtjMYoe8-pVmni4X0Sf9vTabxxCY3bcChg9f3WkBjW7WjdXTg_sRhSwT8zZLgbAPTEbLsAXbV6jNygKbj5sIE2KKVmIAw4Qkjr4_Lpt2NLqadw-bibExMj9elVWTZm9d2tq9KoeN_Eb44zuWyWj3PLuCFYIyqkbw6EH07hsaH4OPghay0UHQowk7Ju255031aHThGbBni7N-KrrhNL_wawGxMz6FHS3qEaZ6tjRI91ybXVHhMAV1tarkqOg76Py7JJh9MfkYXeWNwTP7jRxqTpzDyHdpb1Jv2f9T1F3pMdXY)
 > ``📝`` It's possible to rework this so that your bot will send messages into the channel submitted by each server, instead of the announcement channel. 
-___
-
-
