@@ -2,6 +2,7 @@
   "token": "DISCORD_TOKEN",
   "clientId": "Your Bot's Client Id ",
   "guildId": "The Id of your test guild",
+  "announcementChannelId": "Channel Id of your announcement channel which all participating servers follow"
   "requiredPerms": "MANAGE_GUILD",
   "incorrectPermsNotifier": "Channel Id which the bot notifies if it can't see the channel a server set for it.",
   "mongoURI": "mongodb+srv://clusterName:clusterPassword@userName.abcde.mongodb.net/"
