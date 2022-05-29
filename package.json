@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node --trace-warnings index.js",
+    "ready": "node --trace-warnings index.js",
     "deploy-commands": "node deploy-commands.js",
-    "dev": "yarn run deploy-commands && yarm run start"
+    "start": "yarn run deploy-commands && yarn run ready"
   },
   "keywords": [],
   "author": "",
