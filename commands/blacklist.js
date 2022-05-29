@@ -36,7 +36,7 @@ module.exports = {
         const Embed = new MessageEmbed()
             .setTitle(`:loudspeaker: New Member Blacklisted!`)
             .setColor("WHITE")
-            .setDescription(`User :: ${boldUser} \`${user.id}\`\nReason :: ${boldReason}\nAuthor :: ${boldAuthor} \`${interaction.user}\`\nGuild :: ${boldGuild}`)
+            .setDescription(`User :: ${boldUser} \`${user.id}\`\nReason :: ${boldReason}\nAuthor :: ${boldAuthor} \`${interaction.user.id}\`\nGuild :: ${boldGuild}`)
             .setThumbnail(`${user.displayAvatarURL()}`)
 
         const channel = interaction.client.channels.cache.get('832783717747130378') //An announcement channel all servers follow
