@@ -1,6 +1,7 @@
 const {SlashCommandBuilder, bold} = require("@discordjs/builders");
 const UserSchema = require('../schemas/user-schema');
 const {MessageEmbed} = require("discord.js");
+const { requiredPerms } = require('../config.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -15,7 +16,7 @@ module.exports = {
                 .setRequired(true)
                 .setDescription('Enter a reason')),
     async execute(interaction) {
-        if (!interaction.member.permissions.has("MANAGE_GUILD")) return interaction.reply({ content: 'Lol no 🖕', ephemeral: true })
+        if (!interaction.member.permissions.has(requiredPerms)) return interaction.reply({ content: 'Lol no 🖕', ephemeral: true })
 
         const user = interaction.options.getUser('target');
         const string = interaction.options.getString('reason');
