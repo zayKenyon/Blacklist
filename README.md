@@ -15,7 +15,7 @@ Source code to host your own ban pool bot.
 - [Yarn](https://www.npmjs.com/package/yarn)
 - [A MongoDB cluster](https://www.mongodb.com/basics/clusters/mongodb-cluster-setup)
 - [A Discord bot application](https://discord.com/developers/applications)
-  - You must have the Server Members Intent enabled.
+  - You must have the Presence & Server Members Intent enabled.
 
 ### 2: Clone this repository
 ```
