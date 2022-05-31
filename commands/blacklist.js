@@ -1,6 +1,7 @@
 const {SlashCommandBuilder, bold} = require("@discordjs/builders");
 const UserSchema = require('../schemas/user-schema');
 const {MessageEmbed} = require("discord.js");
+const { requiredPerms, announcementChannelId } = require('../config.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -15,7 +16,7 @@ module.exports = {
                 .setRequired(true)
                 .setDescription('Enter a reason')),
     async execute(interaction) {
-        if (!interaction.member.permissions.has("MANAGE_GUILD")) return interaction.reply({ content: 'Lol no 🖕', ephemeral: true })
+        if (!interaction.member.permissions.has(requiredPerms)) return interaction.reply({ content: 'Lol no 🖕', ephemeral: true })
 
         const user = interaction.options.getUser('target');
         const string = interaction.options.getString('reason');
@@ -39,7 +40,7 @@ module.exports = {
             .setDescription(`User :: ${boldUser} \`${user.id}\`\nReason :: ${boldReason}\nAuthor :: ${boldAuthor} \`${interaction.user.id}\`\nGuild :: ${boldGuild}`)
             .setThumbnail(`${user.displayAvatarURL()}`)
 
-        const channel = interaction.client.channels.cache.get('832783717747130378') //An announcement channel all servers follow
+        const channel = interaction.client.channels.cache.get(announcementChannelId) //An announcement channel all servers follow
         channel.send({ embeds: [Embed] });
         console.log(`Published Blacklisted Message into ${channel.name}`)
 

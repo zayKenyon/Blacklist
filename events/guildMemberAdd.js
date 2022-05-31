@@ -2,6 +2,7 @@ const UserSchema = require('../schemas/user-schema');
 const ChannelSchema = require('../schemas/channels-schema');
 const { MessageEmbed, Permissions } = require('discord.js');
 const { client } = require('../index');
+const { incorrectPermsNotifier } = require('../config.json');
 
 module.exports = {
 	name: 'guildMemberAdd',
@@ -36,8 +37,8 @@ module.exports = {
 					channel.send({ embeds: [Embed] });
 				}
 				else {
-					const shameChannel = await client.channels.fetch('842863878173491290');
-					shameChannel.send(`${channel.guild.name} does not have the correct permissions for me in <${channel}> <a:Blacklist_DinkDonk:970452374856548402> (BTW the user was ${member.id})`);
+					const incorrectpermsChannel = await client.channels.fetch(incorrectPermsNotifier);
+					incorrectpermsChannel.send(`${channel.guild.name} does not have the correct permissions for me in <${channel}> (BTW the user was ${member.id})`);
 				}
 			}
 		}

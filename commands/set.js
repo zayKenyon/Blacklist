@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const ChannelSchema = require('../schemas/channels-schema');
+const { requiredPerms } = require('../config.json');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -10,7 +11,7 @@ module.exports = {
 				.setRequired(true)
 				.setDescription('Select a channel')),
 	async execute(interaction) {
-		if (!interaction.member.permissions.has('MANAGE_GUILD')) return interaction.reply({ content: 'Lol no 🖕', ephemeral: true });
+		if (!interaction.member.permissions.has(requiredPerms)) return interaction.reply({ content: 'Lol no 🖕', ephemeral: true });
 
 		const { id } = interaction.options.getChannel('destination');
 		await ChannelSchema.findOneAndUpdate(
