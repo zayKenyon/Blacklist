@@ -1,4 +1,4 @@
-const {SlashCommandBuilder, bold} = require("@discordjs/builders");
+const {SlashCommandBuilder, bold, inlineCode} = require("@discordjs/builders");
 const UserSchema = require('../schemas/user-schema');
 const {MessageEmbed} = require("discord.js");
 const { requiredPerms, announcementChannelId } = require('../config.json');
@@ -16,9 +16,26 @@ module.exports = {
                 .setRequired(true)
                 .setDescription('Enter a reason')),
     async execute(interaction) {
-        if (!interaction.member.permissions.has(requiredPerms)) return interaction.reply({ content: 'Lol no 🖕', ephemeral: true })
+        if (!interaction.member.permissions.has(requiredPerms)) {
+            return interaction.reply({
+                content: 'Lol no 🖕',
+                ephemeral: true
+            });
+        }
 
         const user = interaction.options.getUser('target');
+
+        // If Blacklist Schema returns null, original embed is sent
+        if (await UserSchema.findOne({ user: user.id })) {
+            const userLookupPrompt = inlineCode(`/user-lookup target:${user.id}`)
+
+            return interaction.reply({
+                content: `User is already blacklisted.
+${userLookupPrompt}`,
+                ephemeral: true
+            })
+        }
+
         const string = interaction.options.getString('reason');
 
         new UserSchema({
