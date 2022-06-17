@@ -5,13 +5,13 @@ Source code to host your own ban pool bot.
 [![wakatime](https://wakatime.com/badge/github/isaacKenyon/Blacklist.svg?style=for-the-badge)](https://wakatime.com/badge/github/isaacKenyon/Blacklist)
 ![GitHub repo size](https://img.shields.io/github/repo-size/isaacKenyon/Blacklist?style=for-the-badge)
 [![node-current](https://img.shields.io/node/v/discord.js?style=for-the-badge)](https://nodejs.org/en/)
-[![npm](https://img.shields.io/npm/v/discord.js?label=Discord.js&style=for-the-badge)](https://discord.js.org/)
 [![Discord](https://img.shields.io/discord/828026052806443028?color=7289DA&label=Support%20Server&style=for-the-badge)](https://discord.gg/3Fx3y8XV7Y)
 
 ## Setting up the bot
 ### 1: Prerequisites
 - [Git](https://git-scm.com/)
 - [Node.js v16.6.0+](https://nodejs.org/en/)
+- [Discord.js v13.7](https://discord.js.org/)
 - [Yarn](https://www.npmjs.com/package/yarn)
 - [A MongoDB cluster](https://www.mongodb.com/basics/clusters/mongodb-cluster-setup)
 - [A Discord bot application](https://discord.com/developers/applications)
