@@ -25,7 +25,7 @@ module.exports = {
 
         const user = interaction.options.getUser('target');
 
-        // If Blacklist Schema returns null, original embed is sent
+        // Checks if user is already present
         if (await UserSchema.findOne({ user: user.id })) {
             const userLookupPrompt = inlineCode(`/user-lookup target:${user.id}`)
 
