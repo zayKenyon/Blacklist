@@ -57,8 +57,9 @@ ${userLookupPrompt}`,
             .setDescription(`User :: ${boldUser} \`${user.id}\`\nReason :: ${boldReason}\nAuthor :: ${boldAuthor} \`${interaction.user.id}\`\nGuild :: ${boldGuild}`)
             .setThumbnail(`${user.displayAvatarURL()}`)
 
-        const channel = interaction.client.channels.cache.get(announcementChannelId) //An announcement channel all servers follow
-        channel.send({ embeds: [Embed] });
+        //An announcement channel all servers follow
+        const channel = interaction.client.channels.cache.get('832783717747130378')
+            .send({ embeds: [Embed] });
         console.log(`Published Blacklisted Message into ${channel.name}`)
 
         interaction.reply({ embeds: [Embed]})
