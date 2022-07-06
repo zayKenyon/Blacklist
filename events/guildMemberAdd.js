@@ -7,40 +7,67 @@ const { incorrectPermsNotifier } = require('../config.json');
 module.exports = {
 	name: 'guildMemberAdd',
 	async execute(member) {
-		const result = await UserSchema.findOne({ user: member.id }) || {};
-		const { reason, guild, author } = result || {};
+		const userSchemaResult = await UserSchema.findOne({ user: member.id }) || {};
 
-		if (reason) {
-			const guildObject = client.guilds.cache.get(guild) || {};
-
-			const Embed = new MessageEmbed()
+		async function blacklistEmbed(reason, author, guildName) {
+			return new MessageEmbed()
 				.setTitle(':scream_cat: Blacklisted Member Arrived')
 				.setColor('RED')
-				.setDescription(`User :: **${member}** \`${member.id}\`\nReason :: **${reason}**\nAuthor :: **<@${author}>** \`${author}\`\nGuild :: **${guildObject.name}**`)
+				.setDescription(`User :: **${member}** \`${member.id}\`
+Reason :: **${reason}**
+Author :: **<@${author}>** \`${author}\`
+Guild :: **${guildName}**`)
 				.setThumbnail(`${member.displayAvatarURL()}`);
+		}
 
-			const { channelID } = await ChannelSchema.findOne({ guildID: member.guild.id });
+		async function guildStringToObject(guild) {
+			return client.guilds.cache.get(guild);
+		}
 
-			if ({ channelID }) {
-				const channel = await client.channels.fetch(channelID);
+		async function getBitPermissions(guildObject, channel) {
+			return guildObject.me.permissionsIn(channel);
+		}
 
-				const bitPermissions = guildObject.me.permissionsIn(channel);
-				const flagPermissions = new Permissions([
-					Permissions.FLAGS.VIEW_CHANNEL,
-					Permissions.FLAGS.SEND_MESSAGES,
-					Permissions.FLAGS.EMBED_LINKS,
-				]);
-
-				console.log(bitPermissions.has(flagPermissions));
-
-				if (bitPermissions.has(flagPermissions)) {
-					channel.send({ embeds: [Embed] });
-				}
-				else {
-					const incorrectpermsChannel = await client.channels.fetch(incorrectPermsNotifier);
-					incorrectpermsChannel.send(`${channel.guild.name} does not have the correct permissions for me in <${channel}> (BTW the user was ${member.id})`);
-				}
+		async function permissionsCheck(guildObject, channel, flagPermissions) {
+			const bitPermissions = await getBitPermissions(guildObject, channel);
+			if (bitPermissions.has(flagPermissions)) {
+				return true;
 			}
+		}
+
+		if (userSchemaResult) {
+			const { author, reason, guild } = userSchemaResult;
+			const guildObject = await guildStringToObject(guild);
+
+			const channelSchemaResult = await ChannelSchema.findOne({ guildID: member.guild.id });
+
+			if (!channelSchemaResult) {
+				return client.channels.cache.get(incorrectPermsNotifier).send(`${guildObject.name} did not set a channel for me to send to.
+${member.id}, ${reason}.`);
+			}
+
+			const { channelID } = channelSchemaResult;
+			const channel = await client.channels.fetch(channelID);
+
+			const flagPermissions = new Permissions([
+				Permissions.FLAGS.VIEW_CHANNEL,
+				Permissions.FLAGS.SEND_MESSAGES,
+				Permissions.FLAGS.EMBED_LINKS,
+			]);
+
+			if (!await permissionsCheck(guildObject, channel, flagPermissions)) {
+				client.channels.cache.get(incorrectPermsNotifier).send(
+					`${guildObject.name} does not have the correct permissions for me.
+${member.id}, ${reason}.`);
+			}
+
+			try {
+				await channel.send({ embeds: [await blacklistEmbed(reason, author, guildObject.name)] });
+			}
+			catch (e) {
+				console.error(e);
+			}
+
 		}
 	},
 };
