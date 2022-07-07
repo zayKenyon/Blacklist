@@ -26,7 +26,7 @@ module.exports = {
 		const user = interaction.options.getUser('target');
 
 		// Stops member from blacklisting themselves, or the bot.
-		if (user.id === interaction.member.id || interaction.applicationId) {
+		if (user.id === interaction.member.id || user.id === interaction.applicationId) {
 			return interaction.reply({
 				content: 'You cannot blacklist this user!',
 				ephemeral: true,
