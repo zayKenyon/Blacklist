@@ -9,14 +9,14 @@ module.exports = {
 	async execute(member) {
 		const userSchemaResult = await UserSchema.findOne({ user: member.id }) || {};
 
-		async function blacklistEmbed(reason, author, guildName) {
+		async function blacklistEmbed(reason, author, guildObject) {
 			return new MessageEmbed()
 				.setTitle(':scream_cat: Blacklisted Member Arrived')
 				.setColor('RED')
 				.setDescription(`User :: **${member}** \`${member.id}\`
 Reason :: **${reason}**
 Author :: **<@${author}>** \`${author}\`
-Guild :: **${guildName}**`)
+Guild :: **${guildObject.name}**`)
 				.setThumbnail(`${member.displayAvatarURL()}`);
 		}
 
@@ -62,7 +62,7 @@ ${member.id}, ${reason}.`);
 			}
 
 			try {
-				await channel.send({ embeds: [await blacklistEmbed(reason, author, guildObject.name)] });
+				await channel.send({ embeds: [await blacklistEmbed(reason, author, guildObject)] });
 			}
 			catch (e) {
 				console.error(e);
