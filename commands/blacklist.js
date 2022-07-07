@@ -25,15 +25,20 @@ module.exports = {
 
         const user = interaction.options.getUser('target');
 
-        // If Blacklist Schema returns null, original embed is sent
-        if (await UserSchema.findOne({ user: user.id })) {
-            const userLookupPrompt = inlineCode(`/user-lookup target:${user.id}`)
-
+        // Stops member from blacklisting themselves, or the bot.
+        if (user.id === interaction.member.id || interaction.applicationId) {
             return interaction.reply({
-                content: `User is already blacklisted.
-${userLookupPrompt}`,
+                content: 'You cannot blacklist this user!',
                 ephemeral: true
-            })
+            });
+        }
+
+        // If Blacklist Schema returns null, original embed is sent
+        if (await UserSchema.findOne({ user: user.id }) != null) {
+            await interaction.reply('User is already blacklisted.');
+
+            const userLookupPrompt = inlineCode(`/user-lookup target:${user}`);
+            await interaction.followUp(userLookupPrompt);
         }
 
         const string = interaction.options.getString('reason');
@@ -58,7 +63,7 @@ ${userLookupPrompt}`,
             .setThumbnail(`${user.displayAvatarURL()}`)
 
         //An announcement channel all servers follow
-        const channel = interaction.client.channels.cache.get('832783717747130378')
+        const channel = interaction.client.channels.cache.get(announcementChannelId)
             .send({ embeds: [Embed] });
         console.log(`Published Blacklisted Message into ${channel.name}`)
 
