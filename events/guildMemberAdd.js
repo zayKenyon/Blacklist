@@ -57,7 +57,7 @@ ${member.id}, ${reason}.`);
 
 			if (!await permissionsCheck(guildObject, channel, flagPermissions)) {
 				client.channels.cache.get(incorrectPermsNotifier).send(
-					`${guildObject.name} does not have the correct permissions for me.
+					`${member.guild.id} does not have the correct permissions for me.
 ${member.id}, ${reason}.`);
 			}
 
