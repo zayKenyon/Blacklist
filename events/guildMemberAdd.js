@@ -35,7 +35,7 @@ Guild :: **${guildObject.name}**`)
 			}
 		}
 
-		if (userSchemaResult) {
+		if (userSchemaResult !== null) {
 			const { author, reason, guild } = userSchemaResult;
 			const guildObject = await guildStringToObject(guild);
 
