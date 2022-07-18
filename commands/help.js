@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -7,8 +6,8 @@ module.exports = {
 		.setDescription('Get help with BlacklistBot'),
 	async execute(interaction) {
 
-		const Embed = new MessageEmbed()
-			.setColor('AQUA')
+		const Embed = new EmbedBuilder()
+			.setColor('Aqua')
 			.setDescription(
 				'I am a Ban-Pool bot shared by the mods of VALORANT content creator servers, and I was created by [zay](https://zay.kenyon.co.uk/). ' +
                 'I don\'t have many commands, so it shouldn\'t take you long to get acquainted.')

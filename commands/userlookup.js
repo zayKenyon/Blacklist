@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const UserSchema = require('../schemas/user-schema');
 
 module.exports = {
@@ -18,9 +17,9 @@ module.exports = {
 			await guild.members.fetch(user).then(() => guilds.push(` ${guild}`)).catch(() => console.log(`${user.tag} does not exist in ${guild.name}`));
 		}
 
-		const Embed = new MessageEmbed()
+		const Embed = new EmbedBuilder()
 			.setTitle('🕵️ User Lookup :: Found')
-			.setColor('AQUA')
+			.setColor('Aqua')
 			.setThumbnail(`${user.displayAvatarURL()}`)
 			.setDescription(`**User**: ${user.tag}
 **Discord Id**:  ${user} \`${user.id}\`
@@ -45,7 +44,7 @@ module.exports = {
 		const guildObject = interaction.client.guilds.cache.get(guild);
 
 		// Blacklist Schema did not return null, fields are edited
-		Embed.setColor('RED');
+		Embed.setColor('Red');
 
 		// Ugly but not sure how to extend previous description
 		Embed.setDescription(`⚠ This user is blacklisted ️

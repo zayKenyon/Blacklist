@@ -1,6 +1,5 @@
-const { SlashCommandBuilder, bold, inlineCode } = require('@discordjs/builders');
 const UserSchema = require('../schemas/user-schema');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder, bold, inlineCode } = require('discord.js');
 const { requiredPerms, announcementChannelId } = require('../config.json');
 
 module.exports = {
@@ -56,9 +55,9 @@ module.exports = {
 		const boldAuthor = bold(interaction.user);
 		const boldGuild = bold(interaction.guild.name);
 
-		const Embed = new MessageEmbed()
+		const Embed = new EmbedBuilder()
 			.setTitle(':loudspeaker: New Member Blacklisted!')
-			.setColor('WHITE')
+			.setColor('White')
 			.setDescription(`User :: ${boldUser} \`${user.id}\`\nReason :: ${boldReason}\nAuthor :: ${boldAuthor} \`${interaction.user.id}\`\nGuild :: ${boldGuild}`)
 			.setThumbnail(`${user.displayAvatarURL()}`);
 

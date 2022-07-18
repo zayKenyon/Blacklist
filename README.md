@@ -10,8 +10,8 @@ Source code to host your own ban pool bot.
 ## Setting up the bot
 ### 1: Prerequisites
 - [Git](https://git-scm.com/)
-- [Node.js v16.6.0+](https://nodejs.org/en/)
-- [Discord.js v13.7](https://discord.js.org/)
+- [Node.js v16.9.0+](https://nodejs.org/en/)
+- [Discord.js v14](https://discord.js.org/)
 - [Yarn](https://www.npmjs.com/package/yarn)
 - [A MongoDB cluster](https://www.mongodb.com/basics/clusters/mongodb-cluster-setup)
 - [A Discord bot application](https://discord.com/developers/applications)

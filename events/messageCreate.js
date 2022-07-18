@@ -1,14 +1,14 @@
 const { client } = require('../index');
 const { requiredPerms } = require('../config.json');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
 	name: 'messageCreate',
 	async execute(message) {
 		if (!message.mentions.has(client.user.id) || message.content.includes('@here') || message.content.includes('@everyone')) return false;
 
-		const Embed = new MessageEmbed()
-			.setColor('AQUA')
+		const Embed = new EmbedBuilder()
+			.setColor('Aqua')
 			.setDescription(
 				'I was a Ban-Pool bot originally shared by the mods of VALORANT content creator servers, and I was created by [zay](https://zay.kenyon.co.uk/). ' +
                 'I don\'t have many commands, so it shouldn\'t take you long to get acquainted.')

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder } = require('discord.js');
 const ChannelSchema = require('../schemas/channels-schema');
 const { requiredPerms } = require('../config.json');
 
