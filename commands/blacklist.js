@@ -33,11 +33,14 @@ module.exports = {
 		}
 
 		// If Blacklist Schema returns null, original embed is sent
-		if (await UserSchema.findOne({ user: user.id }) != null) {
+		console.log(await UserSchema.findOne({ user: user.id }));
+		if (await UserSchema.findOne({ user: user.id })) {
 			await interaction.reply('User is already blacklisted.');
 
 			const userLookupPrompt = inlineCode(`/user-lookup target:${user}`);
 			await interaction.followUp(userLookupPrompt);
+
+			return;
 		}
 
 		const string = interaction.options.getString('reason');
