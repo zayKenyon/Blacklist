@@ -7,16 +7,16 @@ const { incorrectPermsNotifier } = require('../config.json');
 module.exports = {
 	name: 'guildMemberAdd',
 	async execute(member) {
-		const userSchemaResult = await UserSchema.findOne({ user: member.id }) || {};
+		const userSchemaResult = await UserSchema.findOne({ user: member.id });
 
-		async function blacklistEmbed(reason, author, channel) {
+		async function blacklistEmbed(reason, author, guildID) {
 			return new EmbedBuilder()
 				.setTitle(':scream_cat: Blacklisted Member Arrived')
 				.setColor('Red')
 				.setDescription(`User :: **${member}** \`${member.id}\`
 Reason :: **${reason}**
 Author :: **<@${author}>** \`${author}\`
-Guild :: **${channel.guild.name}**`)
+Guild :: **${client.guilds.cache.get(guildID).name}**`)
 				.setThumbnail(`${member.displayAvatarURL()}`);
 		}
 
@@ -26,7 +26,7 @@ Guild :: **${channel.guild.name}**`)
 			}
 		}
 
-		if (userSchemaResult !== null) {
+		if (userSchemaResult) {
 			const { author, reason } = userSchemaResult;
 
 			const channelSchemaResult = await ChannelSchema.findOne({ guildID: member.guild.id });
@@ -36,7 +36,7 @@ Guild :: **${channel.guild.name}**`)
 ${member.id}, ${reason}.`);
 			}
 
-			const { channelID } = channelSchemaResult;
+			const { channelID, guildID } = channelSchemaResult;
 			const channel = await member.guild.channels.fetch(channelID);
 
 			const flagPermissions = new PermissionsBitField([
@@ -52,7 +52,7 @@ ${member.id}, ${reason}.`);
 			}
 
 			try {
-				await channel.send({ embeds: [await blacklistEmbed(reason, author, channel)] });
+				await channel.send({ embeds: [await blacklistEmbed(reason, author, guildID)] });
 			}
 			catch (e) {
 				console.error(e);
