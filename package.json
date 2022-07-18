@@ -11,15 +11,15 @@
   "author": "Zay Kenyon",
   "license": "MIT",
   "dependencies": {
-    "@discordjs/rest": "^0.3.0",
-    "discord-api-types": "^0.36.1",
+    "@discordjs/rest": "^1.0.0",
+    "discord-api-types": "^0.36.2",
     "discord.js": "^14.0.2",
-    "mongoose": "^6.3.4",
-    "yarn": "^1.22.18"
+    "mongoose": "^6.4.5",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "cz-conventional-changelog": "3.3.0",
-    "eslint": "^8.15.0"
+    "eslint": "^8.20.0"
   },
   "config": {
     "commitizen": {
