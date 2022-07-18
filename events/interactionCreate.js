@@ -3,7 +3,7 @@ const { InteractionType } = require('discord-api-types/v10');
 module.exports = {
 	name: 'interactionCreate',
 	async execute(interaction) {
-		if (interaction.type !== InteractionType.ApplicationCommand) return;
+		if (!interaction.type === InteractionType.ApplicationCommand) return;
 
 		const command = interaction.client.commands.get(interaction.commandName);
 
