@@ -1,16 +1,15 @@
 {
   "name": "blacklist",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "Source code to host your own Discord MutualBan bot.",
   "main": "index.js",
   "scripts": {
     "ready": "node --trace-warnings index.js",
     "deploy-commands": "node deploy-commands.js",
     "start": "yarn run deploy-commands && yarn run ready"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Zay Kenyon",
+  "license": "MIT",
   "dependencies": {
     "@discordjs/rest": "^0.3.0",
     "discord-api-types": "^0.36.1",
@@ -19,6 +18,12 @@
     "yarn": "^1.22.18"
   },
   "devDependencies": {
+    "cz-conventional-changelog": "3.3.0",
     "eslint": "^8.15.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

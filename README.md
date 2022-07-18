@@ -5,7 +5,7 @@ Source code to host your own ban pool bot.
 [![wakatime](https://wakatime.com/badge/github/isaacKenyon/Blacklist.svg?style=for-the-badge)](https://wakatime.com/badge/github/isaacKenyon/Blacklist)
 ![GitHub repo size](https://img.shields.io/github/repo-size/isaacKenyon/Blacklist?style=for-the-badge)
 [![node-current](https://img.shields.io/node/v/discord.js?style=for-the-badge)](https://nodejs.org/en/)
-[![Discord](https://img.shields.io/discord/828026052806443028?color=7289DA&label=Support%20Server&style=for-the-badge)](https://discord.gg/3Fx3y8XV7Y)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 ## Setting up the bot
 ### 1: Prerequisites
