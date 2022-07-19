@@ -33,7 +33,6 @@ module.exports = {
 		}
 
 		// If Blacklist Schema returns null, original embed is sent
-		console.log(await UserSchema.findOne({ user: user.id }));
 		if (await UserSchema.findOne({ user: user.id })) {
 			await interaction.reply('User is already blacklisted.');
 
