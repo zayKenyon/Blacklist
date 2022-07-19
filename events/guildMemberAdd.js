@@ -1,6 +1,6 @@
 const UserSchema = require('../schemas/user-schema');
 const ChannelSchema = require('../schemas/channels-schema');
-const { PermissionsBitField, EmbedBuilder } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { client } = require('../index');
 const { incorrectPermsNotifier } = require('../config.json');
 
@@ -20,43 +20,38 @@ Guild :: **${client.guilds.cache.get(guildID).name}**`)
 				.setThumbnail(`${member.displayAvatarURL()}`);
 		}
 
-		async function permissionsCheck(guild, channel, flagPermissions) {
-			if (member.guild.members.me.permissionsIn(channel).has(flagPermissions)) {
-				return true;
-			}
-		}
-
 		if (userSchemaResult) {
 			const { author, reason } = userSchemaResult;
 
 			const channelSchemaResult = await ChannelSchema.findOne({ guildID: member.guild.id });
 
 			if (!channelSchemaResult) {
-				return client.channels.cache.get(incorrectPermsNotifier).send(`${member.guild.name} did not set a channel for me to send to.
-${member.id}, ${reason}.`);
+				return client.channels.cache.get(incorrectPermsNotifier)
+					.send(`${member.guild.name} did not set a channel for me to send to.\n\n${member.id}, ${reason}.`);
 			}
 
 			const { channelID, guildID } = channelSchemaResult;
 			const channel = await member.guild.channels.fetch(channelID);
 
-			const flagPermissions = new PermissionsBitField([
-				PermissionsBitField.Flags.ViewChannel,
-				PermissionsBitField.Flags.SendMessages,
-				PermissionsBitField.Flags.EmbedLinks,
-			]);
+			channel.send({ embeds: [await blacklistEmbed(reason, author, guildID)] })
+				.catch(error => {
 
-			if (!await permissionsCheck(member, channel, flagPermissions)) {
-				client.channels.cache.get(incorrectPermsNotifier).send(
-					`${member.guild.id} does not have the correct permissions for me.
-${member.id}, ${reason}.`);
-			}
+					// Handles a server not giving permissions for BlacklistBot in the channel they set
+					if (error.code === 50013) {
+						client.channels.cache.get(incorrectPermsNotifier)
+							.send(`${member.guild.name} set the channel ${channel} for me, yet I cannot send messages there.\n\n${member.id}, ${reason}`);
+					}
 
-			try {
-				await channel.send({ embeds: [await blacklistEmbed(reason, author, guildID)] });
-			}
-			catch (e) {
-				console.error(e);
-			}
+					// Handles a server not letting BlacklistBot seeing the channel they set
+					else if (error.code === 50001) {
+						client.channels.cache.get(incorrectPermsNotifier)
+							.send(`${member.guild.name} set the channel ${channel} for me, yet I cannot see it.\n\n${member.id}, ${reason}`);
+					}
+
+					else {
+						console.error(error);
+					}
+				});
 
 		}
 	},
