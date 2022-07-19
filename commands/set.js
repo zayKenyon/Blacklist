@@ -1,6 +1,6 @@
-const { SlashCommandBuilder } = require('discord.js');
-const ChannelSchema = require('../schemas/channels-schema');
+const { SlashCommandBuilder, ChannelType } = require('discord.js');
 const { requiredPerms } = require('../config.json');
+const ChannelSchema = require('../schemas/channels-schema');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -11,16 +11,30 @@ module.exports = {
 				.setRequired(true)
 				.setDescription('Select a channel')),
 	async execute(interaction) {
-		if (!interaction.member.permissions.has(requiredPerms)) return interaction.reply({ content: 'Lol no 🖕', ephemeral: true });
+		if (!interaction.member.permissions.has(requiredPerms)) {
+			return interaction.reply({
+				content: 'Lol no 🖕',
+				ephemeral: true,
+			});
+		}
 
-		const { id } = interaction.options.getChannel('destination');
+		const setChannel = interaction.options.getChannel('destination');
+		if (setChannel.type !== ChannelType.GuildText) {
+			return interaction.reply({
+				content: 'Channel must be of the GuildText type.',
+				ephemeral: true,
+			});
+		}
+
 		await ChannelSchema.findOneAndUpdate(
 			{ guildID: `${interaction.guildId}` },
-			{ channelID: `${id}` },
+			{ channelID: `${setChannel.id}` },
 			{ upsert: true });
-		console.log(`Submitted the channel ${id} for ${interaction.guildId}`);
+		console.log(`Submitted the channel ${setChannel.name} for ${interaction.guild.name}`);
 
-		await interaction.reply({ content: `<#${id}> (\`${id}\`) has been set for ${interaction.guild.name}.` });
+		await interaction.reply({
+			content: `${setChannel} has been set for ${interaction.guild.name}.`,
+		});
 
 	},
 };
