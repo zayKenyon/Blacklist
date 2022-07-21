@@ -9,7 +9,8 @@ module.exports = {
 		.addChannelOption(option =>
 			option.setName('destination')
 				.setRequired(true)
-				.setDescription('Select a channel')),
+				.setDescription('Select a channel')
+				.addChannelTypes(ChannelType.GuildText)),
 	async execute(interaction) {
 		if (!interaction.member.permissions.has(requiredPerms)) {
 			return interaction.reply({
@@ -19,12 +20,6 @@ module.exports = {
 		}
 
 		const setChannel = interaction.options.getChannel('destination');
-		if (setChannel.type !== ChannelType.GuildText) {
-			return interaction.reply({
-				content: 'Channel must be of the GuildText type.',
-				ephemeral: true,
-			});
-		}
 
 		await ChannelSchema.findOneAndUpdate(
 			{ guildID: `${interaction.guildId}` },
