@@ -1,6 +1,6 @@
 const UserSchema = require('../schemas/user-schema');
 const ChannelSchema = require('../schemas/channels-schema');
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, inlineCode, time } = require('discord.js');
 const { client } = require('../index');
 const { incorrectPermsNotifier } = require('../config.json');
 
@@ -10,14 +10,24 @@ module.exports = {
 		const userSchemaResult = await UserSchema.findOne({ user: member.id });
 
 		async function blacklistEmbed(reason, author, guildID) {
+
+			const convertedJoinedTimestamp = parseInt(member.joinedTimestamp / 1000, 10);
+
+			const authorObject = await client.users.fetch(author);
+
 			return new EmbedBuilder()
-				.setTitle(':scream_cat: Blacklisted Member Arrived')
-				.setColor('Red')
-				.setDescription(`User :: **${member}** \`${member.id}\`
-Reason :: **${reason}**
-Author :: **<@${author}>** \`${author}\`
-Guild :: **${client.guilds.cache.get(guildID).name}**`)
-				.setThumbnail(`${member.displayAvatarURL()}`);
+				.setColor('0x#ff5c5c')
+				.setAuthor({
+					name: `${member.user.tag} (${member.id})`,
+					iconURL: `${member.displayAvatarURL()}`,
+				})
+				.setDescription(
+					`**User:** ${member} - ${inlineCode(member.user.tag)} (${member.id})
+**Joined:** ${time(convertedJoinedTimestamp, 'F')} (${time(convertedJoinedTimestamp, 'R')})
+**Reason:** ${reason}`)
+				.setFooter({
+					text: `${client.guilds.cache.get(guildID).name} • ${authorObject.tag} (${authorObject.id})`,
+				});
 		}
 
 		if (userSchemaResult) {

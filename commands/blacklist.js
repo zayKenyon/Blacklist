@@ -1,5 +1,5 @@
 const UserSchema = require('../schemas/user-schema');
-const { EmbedBuilder, SlashCommandBuilder, bold, inlineCode } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder, inlineCode } = require('discord.js');
 const { requiredPerms, announcementChannelId } = require('../config.json');
 
 module.exports = {
@@ -52,22 +52,24 @@ module.exports = {
 		}).save();
 		console.log(`Submitted ${target.id} for ${reason} from ${interaction.guild.id} by ${interaction.user.id}`);
 
-		const boldUser = bold(target);
-		const boldReason = bold(reason);
-		const boldAuthor = bold(interaction.user);
-		const boldGuild = bold(interaction.guild.name);
-
-		const Embed = new EmbedBuilder()
-			.setTitle(':loudspeaker: New Member Blacklisted!')
-			.setColor('White')
-			.setDescription(`User :: ${boldUser} \`${target.id}\`\nReason :: ${boldReason}\nAuthor :: ${boldAuthor} \`${interaction.user.id}\`\nGuild :: ${boldGuild}`)
-			.setThumbnail(`${target.displayAvatarURL()}`);
+		const blacklistEmbed = new EmbedBuilder()
+			.setColor('0x#ff5c5c')
+			.setAuthor({
+				name: `${interaction.user.tag} (${interaction.user.id})`,
+				iconURL: `${interaction.user.displayAvatarURL()}`,
+			})
+			.setDescription(
+				`**Member:** ${inlineCode(target.tag)} (${target.id})
+**Reason:** ${reason}`)
+			.setFooter({
+				text: `${interaction.guild.name} • Today at ${interaction.createdAt.getHours()}:${interaction.createdAt.getMinutes()}`,
+			});
 
 		// An announcement channel all servers follow
 		const channel = interaction.client.channels.cache.get(announcementChannelId)
-			.send({ embeds: [Embed] });
-		console.log(`Published Blacklisted Message into ${channel.name}`);
+			.send({ embeds: [blacklistEmbed] });
+		console.log(`Published Blacklisted Message into ${channel.id}`);
 
-		interaction.reply({ embeds: [Embed] });
+		interaction.reply({ embeds: [blacklistEmbed] });
 	},
 };
