@@ -47,10 +47,10 @@ module.exports = {
 		await new UserSchema({
 			user: `${target.id}`,
 			reason: `${reason}`,
-			guild: `${interaction.guild.id}`,
+			guild: `${interaction.guildId}`,
 			author: `${interaction.user.id}`,
 		}).save();
-		console.log(`Submitted ${target.id} for ${reason} from ${interaction.guild.id} by ${interaction.user.id}`);
+		console.log(`Submitted ${target.id} for ${reason} from ${interaction.guildId} by ${interaction.user.id}`);
 
 		const blacklistEmbed = new EmbedBuilder()
 			.setColor('0x#ff5c5c')
