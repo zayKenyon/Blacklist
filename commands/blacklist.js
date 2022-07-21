@@ -22,10 +22,10 @@ module.exports = {
 			});
 		}
 
-		const user = interaction.options.getUser('target');
+		const target = interaction.options.getUser('target');
 
-		// Stops member from blacklisting themselves, or the bot.
-		if (user.id === interaction.member.id || user.id === interaction.applicationId) {
+		// Stops member from blacklisting themselves, or any bot.
+		if (target.id === interaction.member.id || target.bot === true) {
 			return interaction.reply({
 				content: 'You cannot blacklist this user!',
 				ephemeral: true,
@@ -33,35 +33,35 @@ module.exports = {
 		}
 
 		// If Blacklist Schema returns null, original embed is sent
-		if (await UserSchema.findOne({ user: user.id })) {
+		if (await UserSchema.findOne({ user: target.id })) {
 			await interaction.reply('User is already blacklisted.');
 
-			const userLookupPrompt = inlineCode(`/user-lookup target:${user}`);
+			const userLookupPrompt = inlineCode(`/user-lookup target:${target}`);
 			await interaction.followUp(userLookupPrompt);
 
 			return;
 		}
 
-		const string = interaction.options.getString('reason');
+		const reason = interaction.options.getString('reason');
 
-		new UserSchema({
-			user: `${user.id}`,
-			reason: `${string}`,
+		await new UserSchema({
+			user: `${target.id}`,
+			reason: `${reason}`,
 			guild: `${interaction.guild.id}`,
 			author: `${interaction.user.id}`,
 		}).save();
-		console.log(`Submitted ${user.id} for ${string} from ${interaction.guild.id} by ${interaction.user.id}`);
+		console.log(`Submitted ${target.id} for ${reason} from ${interaction.guild.id} by ${interaction.user.id}`);
 
-		const boldUser = bold(user);
-		const boldReason = bold(string);
+		const boldUser = bold(target);
+		const boldReason = bold(reason);
 		const boldAuthor = bold(interaction.user);
 		const boldGuild = bold(interaction.guild.name);
 
 		const Embed = new EmbedBuilder()
 			.setTitle(':loudspeaker: New Member Blacklisted!')
 			.setColor('White')
-			.setDescription(`User :: ${boldUser} \`${user.id}\`\nReason :: ${boldReason}\nAuthor :: ${boldAuthor} \`${interaction.user.id}\`\nGuild :: ${boldGuild}`)
-			.setThumbnail(`${user.displayAvatarURL()}`);
+			.setDescription(`User :: ${boldUser} \`${target.id}\`\nReason :: ${boldReason}\nAuthor :: ${boldAuthor} \`${interaction.user.id}\`\nGuild :: ${boldGuild}`)
+			.setThumbnail(`${target.displayAvatarURL()}`);
 
 		// An announcement channel all servers follow
 		const channel = interaction.client.channels.cache.get(announcementChannelId)
