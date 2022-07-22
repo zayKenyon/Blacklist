@@ -25,9 +25,26 @@ module.exports = {
 		else if (interaction.type === InteractionType.ModalSubmit) {
 			if (!interaction.commandName === 'blacklist') return;
 
-			const targetObject = await interaction.client.users.fetch(
-				interaction.fields.getTextInputValue('targetInput'),
-			);
+			const targetString = interaction.fields.getTextInputValue('targetInput');
+
+			let targetObject;
+			try {
+				targetObject = await interaction.client.users.fetch(targetString);
+			}
+			catch (error) {
+
+				// 50035: Invalid form body (returned for both application/json
+				// and multipart/form-data bodies), or invalid Content-Type provided
+
+				// 10013: Unknown user
+				if (error.code === 50035 || error.code === 10013) {
+					return interaction.reply({
+						content: `Supplied UserId: ${inlineCode(targetString)} is invalid.`,
+						ephemeral: true,
+					});
+				}
+			}
+
 			const reasonString = interaction.fields.getTextInputValue('reasonInput');
 
 			// If Blacklist Schema returns valid, CTA for lookup
