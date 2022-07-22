@@ -1,4 +1,4 @@
-const { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, SlashCommandBuilder } = require('discord.js');
+const { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, SlashCommandBuilder, inlineCode } = require('discord.js');
 const { requiredPerms } = require('../config.json');
 
 module.exports = {
@@ -9,18 +9,18 @@ module.exports = {
 	async execute(interaction) {
 		if (!interaction.member.permissions.has(requiredPerms)) {
 			return interaction.reply({
-				content: 'Lol no 🖕',
+				content: `Missing required perms: ${inlineCode(requiredPerms)}.`,
 				ephemeral: true,
 			});
 		}
 
 		const blacklistModal = new ModalBuilder()
 			.setCustomId('blacklistModal')
-			.setTitle('Blacklist Modal');
+			.setTitle('Blacklist Questionnaire');
 
 		const targetInput = new TextInputBuilder()
 			.setCustomId('targetInput')
-			.setLabel('What is the userId?')
+			.setLabel('What is their user Id?')
 			.setStyle(TextInputStyle.Short)
 			.setMinLength(17)
 			.setMaxLength(19)

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ChannelType } = require('discord.js');
+const { SlashCommandBuilder, ChannelType, inlineCode } = require('discord.js');
 const { requiredPerms } = require('../config.json');
 const ChannelSchema = require('../schemas/channels-schema');
 
@@ -14,7 +14,7 @@ module.exports = {
 	async execute(interaction) {
 		if (!interaction.member.permissions.has(requiredPerms)) {
 			return interaction.reply({
-				content: 'Lol no 🖕',
+				content: `Missing required perms: ${inlineCode(requiredPerms)}.`,
 				ephemeral: true,
 			});
 		}
