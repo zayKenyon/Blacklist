@@ -19,7 +19,7 @@ Source code to host your own ban pool bot.
 
 ### 2: Clone this repository
 ```
-git clone https://github.com/isaacKenyon/Blacklist
+git clone https://github.com/zayKenyon/Blacklist
 ```
 
 ### 3: Set config variables
