@@ -78,8 +78,9 @@ module.exports = {
 				.setDescription(
 					`**Member:** ${inlineCode(targetObject.tag)} (${targetObject.id})\n**Reason:** ${reasonString}`)
 				.setFooter({
-					text: `${interaction.guild.name} • Today at ${interaction.createdAt.getHours()}:${interaction.createdAt.getMinutes()}`,
-				});
+					text: `${interaction.guild.name}`,
+				})
+				.setTimestamp(Date.now());
 
 			// An announcement channel all servers follow
 			const announcementChannel = await interaction.client.channels.cache.get(announcementChannelId)
