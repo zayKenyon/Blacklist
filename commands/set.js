@@ -1,5 +1,4 @@
-const { SlashCommandBuilder, ChannelType, inlineCode } = require('discord.js');
-const { requiredPerms } = require('../config.json');
+const { SlashCommandBuilder, ChannelType, PermissionFlagsBits } = require('discord.js');
 const ChannelSchema = require('../schemas/channels-schema');
 
 module.exports = {
@@ -10,15 +9,9 @@ module.exports = {
 			option.setName('destination')
 				.setRequired(true)
 				.setDescription('Select a channel')
-				.addChannelTypes(ChannelType.GuildText)),
+				.addChannelTypes(ChannelType.GuildText))
+		.setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
 	async execute(interaction) {
-		if (!interaction.member.permissions.has(requiredPerms)) {
-			return interaction.reply({
-				content: `Missing required perms: ${inlineCode(requiredPerms)}.`,
-				ephemeral: true,
-			});
-		}
-
 		const setChannel = interaction.options.getChannel('destination');
 
 		await ChannelSchema.findOneAndUpdate(

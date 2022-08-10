@@ -1,19 +1,12 @@
-const { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, SlashCommandBuilder, inlineCode } = require('discord.js');
-const { requiredPerms } = require('../config.json');
+const { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('blacklist')
-		.setDescription('Launches the Blacklist Modal'),
+		.setDescription('Launches the Blacklist Modal')
+		.setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
 
 	async execute(interaction) {
-		if (!interaction.member.permissions.has(requiredPerms)) {
-			return interaction.reply({
-				content: `Missing required perms: ${inlineCode(requiredPerms)}.`,
-				ephemeral: true,
-			});
-		}
-
 		const blacklistModal = new ModalBuilder()
 			.setCustomId('blacklistModal')
 			.setTitle('Blacklist Questionnaire');
@@ -40,4 +33,3 @@ module.exports = {
 		await interaction.showModal(blacklistModal);
 	},
 };
-
