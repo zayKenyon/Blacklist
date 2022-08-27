@@ -83,11 +83,13 @@ module.exports = {
 				.setTimestamp(Date.now());
 
 			// An announcement channel all servers follow
-			const announcementChannel = await interaction.client.channels.cache.get(announcementChannelId)
+			await interaction.client.channels.cache.get(announcementChannelId)
 				.send({ embeds: [blacklistEmbed] });
-			console.log(`Published Blacklisted Message into ${announcementChannel.id}`);
+			console.log(`Published Blacklisted Message into ${announcementChannelId}`);
 
-			interaction.reply({ embeds: [blacklistEmbed] });
+			await interaction.reply({
+				embeds: [blacklistEmbed],
+			});
 		}
 	},
 };
