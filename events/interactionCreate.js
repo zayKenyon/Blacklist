@@ -1,4 +1,4 @@
-const { InteractionType, inlineCode, EmbedBuilder } = require('discord.js');
+const { InteractionType, inlineCode, EmbedBuilder, hyperlink, bold } = require('discord.js');
 const { announcementChannelId } = require('../config.json');
 const UserSchema = require('../schemas/user-schema');
 
@@ -88,6 +88,7 @@ module.exports = {
 			console.log(`Published Blacklisted Message into ${announcementChannelId}`);
 
 			await interaction.reply({
+				content: `If this user has broken Discord' usage policies, you ${bold('must')} ${hyperlink('report them.', 'https://dis.gd/report')}`,
 				embeds: [blacklistEmbed],
 			});
 		}
