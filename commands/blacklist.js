@@ -13,7 +13,7 @@ module.exports = {
 
 		const targetInput = new TextInputBuilder()
 			.setCustomId('targetInput')
-			.setLabel('What is their user Id?')
+			.setLabel('✏️ What is their user Id?')
 			.setStyle(TextInputStyle.Short)
 			.setMinLength(17)
 			.setMaxLength(19)
@@ -21,8 +21,9 @@ module.exports = {
 
 		const reasonInput = new TextInputBuilder()
 			.setCustomId('reasonInput')
-			.setLabel('For what did they do?')
+			.setLabel('🤔 What did they do?')
 			.setStyle(TextInputStyle.Paragraph)
+			.setMinLength(3)
 			.setRequired(true);
 
 		const firstActionRow = new ActionRowBuilder().addComponents([targetInput]);
