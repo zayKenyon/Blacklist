@@ -1,12 +1,21 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, inlineCode, bold, time } = require('discord.js');
 const UserSchema = require('../schemas/user-schema');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('user-lookup')
+		.setName('lookup')
 		.setDescription('Get info about a user')
-		.addUserOption(option => option.setName('target').setDescription('The user').setRequired(true)),
+		.addSubcommand(subcommand =>
+			subcommand
+				.setName('user')
+				.setDescription('User to retrieve information for')
+				.addUserOption(option =>
+					option
+						.setName('target')
+						.setDescription('The user')
+						.setRequired(true))),
 	async execute(interaction) {
+		if (!interaction.options.getSubcommand() === 'user') return;
 		await interaction.deferReply({ ephemeral: true });
 
 		const user = interaction.options.getUser('target');
@@ -17,50 +26,62 @@ module.exports = {
 			await guild.members.fetch(user).then(() => guilds.push(` ${guild}`)).catch(() => console.log(`${user.tag} does not exist in ${guild.name}`));
 		}
 
-		const Embed = new EmbedBuilder()
-			.setTitle('🕵️ User Lookup :: Found')
-			.setColor('Aqua')
-			.setThumbnail(`${user.displayAvatarURL()}`)
-			.setDescription(`**User**: ${user.tag}
-**Discord Id**:  ${user} \`${user.id}\`
-**Joined Discord**: \`${user.createdAt.toDateString()}\`
-**Profile Picture**: [Avatar URL](${user.displayAvatarURL()})
-                
-**Joined ${interaction.guild.name}**: \`${interaction.member.joinedAt.toDateString()}\`
-**Mutual Servers** (with me):  ${guilds}`);
+		const convertedCreatedTimestamp = parseInt(user.createdTimestamp / 1000, 10);
+
+		async function joinedTimestamp() {
+			const member = await interaction.guild.members.fetch(user)
+				.catch(async error => {
+
+					//	Handles if Member isn't in server of interaction
+					if (error.code === '10007') {
+						return 'Not present.';
+					}
+				});
+			if (member === undefined) return 'Member not in guild.';
+
+			return time(parseInt(member.joinedTimestamp / 1000, 10, 'f'));
+		}
+
+		const lookupEmbed = new EmbedBuilder()
+			.setAuthor({
+				name: `${user.tag} (${user.id})`,
+				iconURL: user.displayAvatarURL(),
+			})
+			.setDescription(
+				`${bold('User:')} ${user} - ${inlineCode(user.tag)} (${user.id})
+${bold('Account Created:')} ${time(convertedCreatedTimestamp, 'f')}
+${bold(`Joined: ${interaction.guild.name}`)} ${await joinedTimestamp()}
+${bold('My Mutual Servers:')} ${guilds}`);
 
 		// If Blacklist Schema returns null, original embed is sent
 		if (!await UserSchema.findOne({ user: user.id })) {
+			const notFoundLookupEmbed = await EmbedBuilder.from(lookupEmbed)
+				.setColor('Aqua');
+
 			return await interaction.editReply({
-				embeds: [Embed],
+				embeds: [notFoundLookupEmbed],
 				ephemeral: true,
 			});
 		}
 
-		// Any way to avoid these repeated query's?
-		const { reason, guild, author } = await UserSchema.findOne({ user: user.id });
+		const res = await UserSchema.findOne({
+			user: user.id,
+		});
 
-		// To convert the GuildId into something processable
-		const guildObject = interaction.client.guilds.cache.get(guild);
+		const blacklistAuthor = await interaction.client.users.fetch(res.author);
+		const blacklistGuild = await interaction.client.guilds.cache.get(res.guild);
 
-		// Blacklist Schema did not return null, fields are edited
-		Embed.setColor('Red');
+		const foundLookupEmbed = await EmbedBuilder.from(lookupEmbed)
+			.setColor('0x#ff5c5c')
+			.addFields(
+				{ name: 'Blacklist Reason:', value: res.reason },
+				{ name: 'Blacklist Author:', value: `${blacklistAuthor.tag}`, inline: true },
+				{ name: 'Blacklist Guild:', value: `${blacklistGuild.name}`, inline: true },
+			);
 
-		// Ugly but not sure how to extend previous description
-		Embed.setDescription(`⚠ This user is blacklisted ️
-        
-**User**: ${user.tag}
-**Discord Id**: \`${user.id}\` ${user}
-**Joined Discord**: \`${user.createdAt.toDateString()}\`
-**Profile Picture**: [Avatar URL](${user.displayAvatarURL()})
-                
-**Joined ${interaction.guild.name}**: \`${interaction.member.joinedAt.toDateString()}\`
-**Mutual Servers** (with me): ${guilds}
-                
-**Blacklist Reason**: ${reason}
-**Author**: <@${author}> \`${author}\`
-**Guild**: ${guildObject.name}`);
-
-		await interaction.editReply({ embeds: [Embed], ephemeral: true });
+		await interaction.editReply({
+			embeds: [foundLookupEmbed],
+			ephemeral: true,
+		});
 	},
 };
