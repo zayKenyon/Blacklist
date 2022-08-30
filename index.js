@@ -34,7 +34,11 @@ for (const file of commandFiles) {
 
 main().catch(err => console.log(err));
 async function main() {
-	await mongoose.connect(mongoURI);
+	await mongoose.connect(mongoURI, {
+		serverSelectionTimeoutMS: 1000,
+	})
+		.then(console.log('Connected to the Blacklist Database'));
 }
 
-client.login(token);
+client.login(token)
+	.then(console.log('Token Login.'));
