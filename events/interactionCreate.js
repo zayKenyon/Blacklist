@@ -88,7 +88,7 @@ module.exports = {
 			console.log(`Published Blacklisted Message into ${announcementChannelId}`);
 
 			await interaction.reply({
-				content: `If this user has broken Discord' usage policies, you ${bold('must')} ${hyperlink('report them.', 'https://dis.gd/report')}`,
+				content: `If this user has broken Discord's usage policies, you ${bold('must')} ${hyperlink('report them.', 'https://dis.gd/report')}`,
 				embeds: [blacklistEmbed],
 			});
 		}
