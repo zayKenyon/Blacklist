@@ -50,7 +50,7 @@ module.exports = {
 			.setDescription(
 				`${bold('User:')} ${user} - ${inlineCode(user.tag)} (${user.id})
 ${bold('Account Created:')} ${time(convertedCreatedTimestamp, 'f')}
-${bold(`Joined: ${interaction.guild.name}`)} ${await joinedTimestamp()}
+${bold(`Joined ${interaction.guild.name}:`)} ${await joinedTimestamp()}
 ${bold('My Mutual Servers:')} ${guilds}`);
 
 		// If Blacklist Schema returns null, original embed is sent
