@@ -15,7 +15,7 @@ Source code to host your own ban pool bot.
 - [Yarn](https://www.npmjs.com/package/yarn)
 - [A MongoDB cluster](https://www.mongodb.com/basics/clusters/mongodb-cluster-setup)
 - [A Discord bot application](https://discord.com/developers/applications)
-  - You must have the Presence & Server Members Intent enabled.
+  - You must have the Server Members Intent enabled.
 
 ### 2: Clone this repository
 ```
@@ -24,7 +24,7 @@ git clone https://github.com/zayKenyon/Blacklist
 
 ### 3: Set config variables
 - Fill in the required variables in `config.json.example`
-  -  `requiredPerms` must be a string chosen from here:  https://discord.com/developers/docs/topics/permissions#permissions-bitwise-permission-flags
+  -  `requiredPerms` must be a string chosen from here (in camelCase):  https://discord.com/developers/docs/topics/permissions#permissions-bitwise-permission-flags
 - Rename `config.json.example` to `config.json`
 
 ### 4: Running the bot
@@ -32,11 +32,9 @@ git clone https://github.com/zayKenyon/Blacklist
 - `yarn run start`
 
 ## How to use
-Each participating server must run the slash command `/set`.
+Each participating server must run the slash command `/config log`.
 
 Each participating server must have a channel following the announcement channel set in the `config.json`.
-
-You can ping the bot for further detail.
 
 ## Logic
 ### Blacklist Submission:
