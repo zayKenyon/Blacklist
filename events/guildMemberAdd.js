@@ -10,7 +10,7 @@ module.exports = {
 		const userSchemaResult = await UserSchema.findOne({ user: member.id });
 		if (!userSchemaResult) return;
 
-		async function blacklistEmbed(reason, author, guildID) {
+		async function blacklistEmbed(reason, author, guild) {
 
 			const convertedJoinedTimestamp = parseInt(member.joinedTimestamp / 1000, 10);
 
@@ -27,11 +27,11 @@ module.exports = {
 **Joined:** ${time(convertedJoinedTimestamp, 'F')} (${time(convertedJoinedTimestamp, 'R')})
 **Reason:** ${reason}`)
 				.setFooter({
-					text: `${client.guilds.cache.get(guildID).name} • ${authorObject.tag} (${authorObject.id})`,
+					text: `${client.guilds.cache.get(guild).name} • ${authorObject.tag} (${authorObject.id})`,
 				});
 		}
 
-		const { author, reason } = userSchemaResult;
+		const { author, reason, guild } = userSchemaResult;
 
 		const channelSchemaResult = await ChannelSchema.findOne({ guildID: member.guild.id });
 
@@ -40,10 +40,10 @@ module.exports = {
 				.send(`${member.guild.name} did not set a channel for me to send to.\n\n${member.id}, ${reason}.`);
 		}
 
-		const { channelID, guildID } = channelSchemaResult;
+		const { channelID } = channelSchemaResult;
 		const channel = await member.guild.channels.fetch(channelID);
 
-		await channel.send({ embeds: [await blacklistEmbed(reason, author, guildID)] })
+		await channel.send({ embeds: [await blacklistEmbed(reason, author, guild)] })
 			.catch(async error => {
 
 				// Handles a server not giving permissions for BlacklistBot in the channel they set
