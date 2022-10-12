@@ -20,12 +20,6 @@ module.exports = {
 
 		const user = interaction.options.getUser('target');
 
-		// Attempts to fetch target from all guilds the bot is in, errored guilds are ignored
-		const guilds = [];
-		for (const [, guild] of interaction.client.guilds.cache) {
-			await guild.members.fetch(user).then(() => guilds.push(` ${guild}`)).catch(() => console.log(`${user.tag} does not exist in ${guild.name}`));
-		}
-
 		const convertedCreatedTimestamp = parseInt(user.createdTimestamp / 1000, 10);
 
 		async function joinedTimestamp() {
@@ -50,8 +44,7 @@ module.exports = {
 			.setDescription(
 				`${bold('User:')} ${user} - ${inlineCode(user.tag)} (${user.id})
 ${bold('Account Created:')} ${time(convertedCreatedTimestamp, 'f')}
-${bold(`Joined ${interaction.guild.name}:`)} ${await joinedTimestamp()}
-${bold('My Mutual Servers:')} ${guilds}`);
+${bold(`Joined ${interaction.guild.name}:`)} ${await joinedTimestamp()}`);
 
 		// If Blacklist Schema returns null, original embed is sent
 		if (!await UserSchema.findOne({ user: user.id })) {
