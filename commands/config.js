@@ -18,17 +18,18 @@ module.exports = {
 	async execute(interaction) {
 		if (!interaction.options.getSubcommand() === 'log') return;
 
-		const logChannel = interaction.options.getChannel('destination');
+		const logChannel = interaction.options.getChannel('channel');
 
 		await ChannelSchema.findOneAndUpdate(
 			{ guildID: `${interaction.guildId}` },
 			{ channelID: `${logChannel.id}` },
 			{ upsert: true });
-		console.log(`Submitted the channel ${logChannel.name} for ${interaction.guild.name}`);
 
 		await interaction.reply({
 			content: `${logChannel} has been set for ${interaction.guild.name}.`,
 		});
 
+		const logChannelSubmissionDate = new Date().toUTCString();
+		console.log(`${logChannelSubmissionDate}: ${interaction.user.tag} (${interaction.user.id}) set channel #${logChannel.name} (${logChannel.id}) for ${interaction.guild.name} (${interaction.guild.id})`);
 	},
 };
