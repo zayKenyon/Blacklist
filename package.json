@@ -1,6 +1,6 @@
 {
   "name": "blacklist",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Source code to host your own Discord mutual ban-pool bot.",
   "main": "index.js",
   "scripts": {
