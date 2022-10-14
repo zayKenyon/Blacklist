@@ -11,9 +11,8 @@
   "author": "Zay Kenyon",
   "license": "MIT",
   "dependencies": {
-    "@discordjs/rest": "^1.0.1",
-    "discord-api-types": "^0.37.1",
-    "discord.js": "^14.4.0",
+    "@discordjs/rest": "^1.3.0",
+    "discord.js": "14.6.0",
     "mongoose": "^6.4.5",
     "yarn": "^1.22.19"
   },
